@@ -4,7 +4,8 @@
   "description": "## About",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "webpack",
     "serve": "webpack serve",
     "watch": "webpack --watch"
@@ -38,5 +39,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.82.0",
     "webpack-cli": "^5.1.1"
+  },
+  "dependencies": {
+    "eslint-plugin-jest": "^27.2.1"
   }
 }
