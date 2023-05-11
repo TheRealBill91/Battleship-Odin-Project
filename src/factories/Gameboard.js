@@ -13,14 +13,6 @@ export const Gameboard = () => {
       board[i] = []
       for (let j = 0; j <= columns; j++) {
         board[i].push(undefined)
-
-        /* you can delete this logic, it is purely
-         to test the coordinatesOverlap method
-        if (j < 4) {
-          board[i].push(undefined)
-        } else {
-          board[i].push('x')
-        } */
       }
     }
   }
