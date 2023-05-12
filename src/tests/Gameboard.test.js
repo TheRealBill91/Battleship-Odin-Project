@@ -112,7 +112,7 @@ test('checks if gameboard recorded the shot for a ship hit', () => {
   gameBoard.receiveAttack([1, 1])
   /* const cellIsObj = typeof cellObj === 'object' */
 
-  const recordedShots = gameBoard.getRecordedShots().length
+  const recordedShots = gameBoard.getSuccessfulShots().length
   expect(recordedShots).toBe(1)
 })
 
@@ -130,7 +130,7 @@ test('checks if gameboard recorded the shot for a ship miss', () => {
   gameBoard.receiveAttack([1, 2])
   /* const cellIsObj = typeof cellObj === 'object' */
 
-  const recordedShots = gameBoard.getRecordedShots().length
+  const recordedShots = gameBoard.getMissedShots().length
   expect(recordedShots).toBe(1)
 })
 

@@ -5,7 +5,8 @@ export const Gameboard = () => {
   // eslint-disable-next-line prefer-const
   let board = []
   const shipObjects = []
-  const recordedShots = []
+  const missedShots = []
+  const successfulShots = []
   const rows = 9
   const columns = 9
 
@@ -115,9 +116,9 @@ export const Gameboard = () => {
 
     if (typeof boardCell === 'object') {
       shipObj.hit()
-      recordedShots.push(coordinates)
+      successfulShots.push(coordinates)
     } else if (typeof boardCell !== 'object') {
-      recordedShots.push(coordinates)
+      missedShots.push(coordinates)
     }
   }
 
@@ -136,8 +137,12 @@ export const Gameboard = () => {
     return board
   }
 
-  const getRecordedShots = () => {
-    return recordedShots
+  const getMissedShots = () => {
+    return missedShots
+  }
+
+  const getSuccessfulShots = () => {
+    return successfulShots
   }
 
   const getShipObjects = () => {
@@ -149,7 +154,9 @@ export const Gameboard = () => {
     getBoard,
     placeShip,
     receiveAttack,
-    getRecordedShots,
+    getMissedShots,
+    getSuccessfulShots,
+    // getRecordedShots,
     allShipsSunk,
     validateCoordinates,
     checkSelfOverlap,

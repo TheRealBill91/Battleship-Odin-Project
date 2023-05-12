@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: darkblue;
+    color: rgb(236, 236, 236);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 80px;
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+button.shipCell {
+    background-color: grey;
+}
+
+#boardsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    outline: 1px solid black;
+    padding: 12px;
+    display: grid;
+    grid-template-rows: none;
+    grid-template-columns: 1fr 1fr;
+    width: 91vw;
+    height: 50vh;
+}
+
+#playerBoard {
+    outline: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+
+
+}
+
+#AIBoard {
+    outline: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+
+
+}
+
+button.boardCell {
+    border: 1px solid black;
+    border-radius: 0px;
+}
+
+button.shipCell {
+    background-color: grey;
+}
