@@ -49,6 +49,33 @@ test('checks if ship object is placed at coordinates', () => {
   expect(objectIsPlaced).toBeTruthy()
 })
 
+test('checks that number of ships matches number of placeShip calls', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const coordinatesOne = [
+    [4, 5],
+    [4, 6],
+    [4, 7]
+  ]
+  const coordinatesTwo = [
+    [1, 1],
+    [0, 2],
+    [0, 3]
+  ]
+  const coordinatesThree = [
+    [1, 1],
+    [0, 2],
+    [0, 3]
+  ]
+  gameBoard.placeShip(coordinatesOne)
+  gameBoard.placeShip(coordinatesTwo)
+  gameBoard.placeShip(coordinatesThree)
+
+  const shipObjectsLength = gameBoard.getShipObjects().length
+
+  expect(shipObjectsLength).toBe(2)
+})
+
 test('checks if ship object took the hit', () => {
   const gameBoard = Gameboard()
   gameBoard.createGameBoard()
@@ -71,7 +98,7 @@ test('checks if ship object took the hit', () => {
   expect(numOfHits).toBe(1)
 })
 
-test('checks if ship recorded the shot for a ship hit', () => {
+test('checks if gameboard recorded the shot for a ship hit', () => {
   const gameBoard = Gameboard()
   gameBoard.createGameBoard()
   const coordinates = [
@@ -89,7 +116,7 @@ test('checks if ship recorded the shot for a ship hit', () => {
   expect(recordedShots).toBe(1)
 })
 
-test('checks if ship recorded the shot for a ship miss', () => {
+test('checks if gameboard recorded the shot for a ship miss', () => {
   const gameBoard = Gameboard()
   gameBoard.createGameBoard()
   const coordinates = [
@@ -137,6 +164,53 @@ test('checks if all ships have been sunk', () => {
 
   const sunkAllShips = gameBoard.allShipsSunk()
   expect(sunkAllShips).toBeTruthy()
+})
+
+test('Invalid coordinates returns falsy', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const coordinates = [
+    [12, 1],
+    [0, 2],
+    [0, 3]
+  ]
+  const shipPlaced = gameBoard.placeShip(coordinates)
+
+  expect(shipPlaced).toBeFalsy()
+})
+
+test('Should prevent a ship from having overlapping coordinates', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const coordinates = [
+    [1, 0],
+    [0, 3],
+    [0, 3]
+  ]
+  const shipPlaced = gameBoard.placeShip(coordinates)
+
+  expect(shipPlaced).toBeFalsy()
+})
+
+test('Should prevent a ship from being placed on top of another ship', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const coordinates = [
+    [1, 0],
+    [0, 3],
+    [0, 4]
+  ]
+  gameBoard.placeShip(coordinates)
+
+  const coordinatesTwo = [
+    [1, 0],
+    [2, 3],
+    [4, 3]
+  ]
+
+  const shipPlacedTwo = gameBoard.placeShip(coordinatesTwo)
+
+  expect(shipPlacedTwo).toBeFalsy()
 })
 
 // !!!REMOVE THIS TEST, IT IS NOT NEEDED!!!

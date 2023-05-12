@@ -1,6 +1,10 @@
 export const Ship = (length, numOfHits, isSunk) => {
   // Increase number of hits in ship by 1
   const hit = () => {
+    if (numOfHits === length) {
+      return
+    }
+
     numOfHits++
     return numOfHits
   }
@@ -21,5 +25,9 @@ export const Ship = (length, numOfHits, isSunk) => {
     return numOfHits
   }
 
-  return { hit, hasBeenSunk, getNumOfHits }
+  const getLength = () => {
+    return length
+  }
+
+  return { hit, hasBeenSunk, getNumOfHits, getLength }
 }

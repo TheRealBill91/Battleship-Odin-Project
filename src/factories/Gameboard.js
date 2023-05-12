@@ -1,3 +1,4 @@
+import { arraysAreEqual } from '../helpers/arraysAreEqual'
 import { Ship } from './Ship'
 
 export const Gameboard = () => {
@@ -37,32 +38,60 @@ export const Gameboard = () => {
   }
 
   // checks if ship coordinates overlap with already
-  // placed ship coordinates
-  const coordinatesOverlap = (coordinates) => {
+  // placed ship coordinates for the same ship
+  const checkSelfOverlap = (coordinates) => {
     let coordinatesOverlap = false
-    coordinates.forEach((coordinate) => {
-      const row = coordinate[0]
-      const column = coordinate[1]
-      const boardCell = board[row][column]
-      if (typeof boardCell === 'object') {
-        coordinatesOverlap = true
-        return coordinatesOverlap
+    let prevCoordinate
+    coordinates.forEach((coordinate, index) => {
+      if (index > 0) {
+        if (arraysAreEqual(prevCoordinate, coordinate)) {
+          coordinatesOverlap = true
+          return coordinatesOverlap
+        }
+        prevCoordinate = coordinate
       }
+      prevCoordinate = coordinate
     })
 
     return coordinatesOverlap
   }
 
-  const placeShip = (coordinates) => {
-    // You need to place a ship, depending on it's
-    // size, on the gameBoard.
-    const legalCoordinates = validateCoordinates(coordinates)
-    const overlappingCoordinates = coordinatesOverlap(coordinates)
+  // Should prevent a ship from being
+  // placed on top of another ship
+  const checkOverlapWithOtherShips = (coordinates) => {
+    let shipsOverlap = false
+    coordinates.forEach((coordinate) => {
+      const row = coordinate[0]
+      const column = coordinate[1]
+      const boardCell = board[row][column]
+      if (typeof boardCell === 'object') {
+        shipsOverlap = true
+        return shipsOverlap
+      }
+    })
 
+    return shipsOverlap
+  }
+
+  const placeShip = (coordinates) => {
+    let shipPlaced = true
+
+    const legalCoordinates = validateCoordinates(coordinates)
     if (!legalCoordinates) {
-      return placeShip
-    } else if (overlappingCoordinates) {
-      return placeShip
+      shipPlaced = false
+      return shipPlaced
+    }
+
+    const overlappingCoordinates = checkSelfOverlap(coordinates)
+    if (overlappingCoordinates) {
+      shipPlaced = false
+      return shipPlaced
+    }
+
+    const shipOverlapping = checkOverlapWithOtherShips(coordinates)
+    if (shipOverlapping) {
+      shipPlaced = false
+      return shipPlaced
     }
 
     const shipLength = coordinates.length
@@ -74,6 +103,8 @@ export const Gameboard = () => {
       const column = coordinate[1]
       board[row][column] = shipObject
     })
+
+    return shipPlaced
   }
 
   const receiveAttack = (coordinates) => {
@@ -109,6 +140,10 @@ export const Gameboard = () => {
     return recordedShots
   }
 
+  const getShipObjects = () => {
+    return shipObjects
+  }
+
   return {
     createGameBoard,
     getBoard,
@@ -117,6 +152,8 @@ export const Gameboard = () => {
     getRecordedShots,
     allShipsSunk,
     validateCoordinates,
-    coordinatesOverlap
+    checkSelfOverlap,
+    getShipObjects,
+    checkOverlapWithOtherShips
   }
 }
