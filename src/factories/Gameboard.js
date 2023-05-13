@@ -6,6 +6,7 @@ export const Gameboard = () => {
   let board = []
   const shipObjects = []
   const missedShots = []
+  const aiAvailableMoves = []
   const successfulShots = []
   const rows = 9
   const columns = 9
@@ -15,6 +16,8 @@ export const Gameboard = () => {
       board[i] = []
       for (let j = 0; j <= columns; j++) {
         board[i].push(undefined)
+        const coordinate = [i, j]
+        aiAvailableMoves.push(coordinate)
       }
     }
   }
@@ -133,6 +136,14 @@ export const Gameboard = () => {
     return everyShipSank
   }
 
+  const removeLastAIMove = (randomMove) => {
+    aiAvailableMoves.forEach((move, index) => {
+      if (arraysAreEqual(move, randomMove)) {
+        aiAvailableMoves.splice(index, 1)
+      }
+    })
+  }
+
   const getBoard = () => {
     return board
   }
@@ -149,6 +160,10 @@ export const Gameboard = () => {
     return shipObjects
   }
 
+  const getAIAvailableMoves = () => {
+    return aiAvailableMoves
+  }
+
   return {
     createGameBoard,
     getBoard,
@@ -156,11 +171,12 @@ export const Gameboard = () => {
     receiveAttack,
     getMissedShots,
     getSuccessfulShots,
-    // getRecordedShots,
     allShipsSunk,
+    getAIAvailableMoves,
     validateCoordinates,
     checkSelfOverlap,
     getShipObjects,
+    removeLastAIMove,
     checkOverlapWithOtherShips
   }
 }

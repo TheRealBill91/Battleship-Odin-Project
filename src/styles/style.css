@@ -41,14 +41,14 @@ button.shipCell {
     grid-template-rows: none;
     grid-template-columns: 1fr 1fr;
     width: 91vw;
-    height: 50vh;
+    height: 60vh;
 }
 
 #playerBoard {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-
+    grid-template-rows: repeat(10, 54px);
 
 }
 
@@ -56,15 +56,21 @@ button.shipCell {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 54px);
 
 
 }
 
-button.boardCell {
+/* button.boardCell {
     border: 1px solid black;
     border-radius: 0px;
-}
+} */
 
 button.shipCell {
     background-color: grey;
+    border: 1px solid black;
+}
+
+button.shipHit {
+    background-color: rgb(22, 94, 22);
 }

@@ -1,9 +1,10 @@
 import { Gameboard } from '../factories/Gameboard'
+import { Player } from '../factories/Player'
 
-export const gameController = () => {
+const gameController = () => {
   // Create two game boards
-  const playerBoard = Gameboard()
-  playerBoard.createGameBoard()
+  const humanBoard = Gameboard()
+  humanBoard.createGameBoard()
 
   const aiBoard = Gameboard()
   aiBoard.createGameBoard()
@@ -68,14 +69,72 @@ export const gameController = () => {
     ]
   }
 
-  placeShips(playerBoard, playerShipCoords)
+  placeShips(humanBoard, playerShipCoords)
   placeShips(aiBoard, aiShipCoords)
 
+  const players = {}
+
+  const getPlayers = () => {
+    return players
+  }
+
+  const humanPlayer = Player('Human', false)
+  const aiPlayer = Player('AI', true)
+  players.human = humanPlayer
+  players.AI = aiPlayer
+
+  let currentPlayer = players.human
+
+  const getCurrentPlayer = () => {
+    return currentPlayer
+  }
+
+  const playRound = (coordinate) => {
+    if (currentPlayer.getName() === players.human.getName()) {
+      aiBoard.receiveAttack(coordinate)
+    } else if (currentPlayer.getName() === players.AI.getName()) {
+      const availableMoves = humanBoard.getAIAvailableMoves()
+      const randomMove = currentPlayer.makeRandomMove(true, availableMoves)
+      humanBoard.receiveAttack(randomMove)
+      humanBoard.removeLastAIMove(randomMove)
+    }
+
+    switchPlayer()
+    console.log(currentPlayer.getName())
+  }
+
+  const switchPlayer = () => {
+    currentPlayer =
+      currentPlayer.getName() === players.human.getName()
+        ? (currentPlayer = players.AI)
+        : (currentPlayer = players.human)
+  }
+
+  const checkForWin = () => {
+    let winner
+    if (currentPlayer === players.human && aiBoard.allShipsSunk()) {
+      winner = currentPlayer
+      return winner
+    } else if (currentPlayer === players.AI && humanBoard.allShipsSunk()) {
+      winner = currentPlayer
+      return winner
+    }
+  }
+
   return {
-    getPlayerBoard: playerBoard.getBoard,
-    getAIBoard: aiBoard.getBoard
+    getHumanBoard: humanBoard.getBoard,
+    getAIBoard: aiBoard.getBoard,
+    getAIBoardObj: aiBoard,
+    getHumanBoardObj: humanBoard,
+    switchPlayer,
+    playRound,
+    getCurrentPlayer,
+    checkForWin,
+    getPlayers
   }
 }
+
+export { gameController }
 
 const placeShips = (board, coordinatesObj) => {
   const shipCoordinatesArr = Object.values(coordinatesObj)

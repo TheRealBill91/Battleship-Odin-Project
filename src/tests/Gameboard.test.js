@@ -1,4 +1,5 @@
 import { Gameboard } from '../factories/Gameboard'
+import { Player } from '../factories/Player'
 
 test('checks the number of rows', () => {
   const gameBoard = Gameboard()
@@ -96,6 +97,24 @@ test('checks if ship object took the hit', () => {
   const numOfHits = shipObj.getNumOfHits()
 
   expect(numOfHits).toBe(1)
+})
+
+test('last random move by AI no longer available to use', () => {
+  const humanBoard = Gameboard()
+  humanBoard.createGameBoard()
+  const board = humanBoard.getBoard()
+
+  let availableMoves = humanBoard.getAIAvailableMoves()
+
+  const aiPlayer = Player('Robot', true)
+
+  const randomMove = aiPlayer.makeRandomMove(true, availableMoves, humanBoard)
+  humanBoard.receiveAttack(randomMove)
+
+  humanBoard.removeLastAIMove(randomMove)
+  availableMoves = humanBoard.getAIAvailableMoves()
+
+  expect(availableMoves).not.toContainEqual(randomMove)
 })
 
 test('checks if gameboard recorded the shot for a ship hit', () => {

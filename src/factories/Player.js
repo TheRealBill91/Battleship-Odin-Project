@@ -2,8 +2,8 @@ export const Player = (name, isAI) => {
   // Used to make AI select random, legal coordinate
   // on players game board
   const makeRandomMove = (isAI, availableMoves) => {
-    if (!isAI) {
-      return makeRandomMove
+    if (!isAI || availableMoves.length === 0) {
+      return undefined
     }
 
     const availableMovesLength = availableMoves.length
@@ -13,5 +13,9 @@ export const Player = (name, isAI) => {
     return randomCoordinate
   }
 
-  return { makeRandomMove }
+  const getName = () => {
+    return name
+  }
+
+  return { makeRandomMove, getName }
 }

@@ -2,32 +2,39 @@ import { Player } from '../factories/Player'
 import { Gameboard } from '../factories/Gameboard'
 import { arraysAreEqual } from '../helpers/arraysAreEqual'
 
-test.only('last random move by AI no longer available to use', () => {
+test('checks that a random move from available moves is returned', () => {
   const humanBoard = Gameboard()
   humanBoard.createGameBoard()
   const board = humanBoard.getBoard()
 
+  const availableMoves = humanBoard.getAIAvailableMoves()
   const aiPlayer = Player('Robot', true)
+
+  const randomMove = aiPlayer.makeRandomMove(true, availableMoves)
+
+  expect(availableMoves).toContainEqual(randomMove)
+})
+
+test('checks that make random move returns undefined when there are no moves left', () => {
+  const humanBoard = Gameboard()
+  humanBoard.createGameBoard()
+
   const availableMoves = []
+  const aiPlayer = Player('Robot', true)
 
-  for (let i = 0; i < board.length; i++) {
-    const row = board[i]
-    for (let j = 0; j < row.length; j++) {
-      const coordinate = [i, j]
-      availableMoves.push(coordinate)
-    }
-  }
+  const randomMove = aiPlayer.makeRandomMove(true, availableMoves)
 
-  const randomMove = aiPlayer.makeRandomMove(true, availableMoves, humanBoard)
-  // const randomMove = [0, 3]
-  humanBoard.receiveAttack(randomMove)
+  expect(randomMove).toBeUndefined()
+})
 
-  availableMoves.forEach((move, index) => {
-    // you need arrays are equal helper function here
-    if (arraysAreEqual(move, randomMove)) {
-      availableMoves.splice(index, 1)
-    }
-  })
+test('checks that make random move returns undefined when the AI is set to false', () => {
+  const humanBoard = Gameboard()
+  humanBoard.createGameBoard()
 
-  expect(availableMoves).not.toContainEqual(randomMove)
+  const availableMoves = []
+  const aiPlayer = Player('Robot', true)
+
+  const randomMove = aiPlayer.makeRandomMove(false, availableMoves)
+
+  expect(randomMove).toBeUndefined()
 })
