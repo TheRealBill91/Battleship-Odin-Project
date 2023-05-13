@@ -2,6 +2,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 header {
@@ -25,6 +27,17 @@ main {
     align-items: center;
     justify-content: center;
     flex: 1;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.topBarContainer {
+    outline: 1px solid black;
+    width: 75vw;
+    height: 80px;
+    margin-top: 24px;
+    display: flex;
+    gap: 10px;
 }
 
 button.shipCell {
@@ -41,7 +54,10 @@ button.shipCell {
     grid-template-rows: none;
     grid-template-columns: 1fr 1fr;
     width: 91vw;
-    height: 60vh;
+}
+
+#boardsContainer p {
+    justify-self: center;
 }
 
 #playerBoard {

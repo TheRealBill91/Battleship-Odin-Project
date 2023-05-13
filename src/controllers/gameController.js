@@ -69,8 +69,10 @@ const gameController = () => {
     ]
   }
 
-  placeShips(humanBoard, playerShipCoords)
-  placeShips(aiBoard, aiShipCoords)
+  const placeAllShips = () => {
+    placeShips(humanBoard, playerShipCoords)
+    placeShips(aiBoard, aiShipCoords)
+  }
 
   const players = {}
 
@@ -112,13 +114,27 @@ const gameController = () => {
 
   const checkForWin = () => {
     let winner
-    if (currentPlayer === players.human && aiBoard.allShipsSunk()) {
+    if (
+      currentPlayer.getName() === players.human.getName() &&
+      aiBoard.allShipsSunk()
+    ) {
       winner = currentPlayer
       return winner
-    } else if (currentPlayer === players.AI && humanBoard.allShipsSunk()) {
+    } else if (
+      currentPlayer.getName() === players.AI.getName() &&
+      humanBoard.allShipsSunk()
+    ) {
       winner = currentPlayer
       return winner
     }
+    return winner
+  }
+
+  const resetGameState = (winner) => {
+    humanBoard.clearGameBoard()
+    aiBoard.clearGameBoard()
+    humanBoard.createGameBoard()
+    aiBoard.createGameBoard()
   }
 
   return {
@@ -129,8 +145,10 @@ const gameController = () => {
     switchPlayer,
     playRound,
     getCurrentPlayer,
+    resetGameState,
     checkForWin,
-    getPlayers
+    getPlayers,
+    placeAllShips
   }
 }
 

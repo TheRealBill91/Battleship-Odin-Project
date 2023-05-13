@@ -99,6 +99,22 @@ test('checks if ship object took the hit', () => {
   expect(numOfHits).toBe(1)
 })
 
+test('prevents user from attacking previously attacked coordinate', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const coordinates = [
+    [1, 1],
+    [0, 2],
+    [0, 3]
+  ]
+  gameBoard.placeShip(coordinates)
+
+  gameBoard.receiveAttack([1, 1])
+  const alreadyAttacked = gameBoard.preventSameAttack([1, 1])
+
+  expect(alreadyAttacked).toBeTruthy()
+})
+
 test('last random move by AI no longer available to use', () => {
   const humanBoard = Gameboard()
   humanBoard.createGameBoard()
@@ -230,6 +246,39 @@ test('Should prevent a ship from being placed on top of another ship', () => {
   const shipPlacedTwo = gameBoard.placeShip(coordinatesTwo)
 
   expect(shipPlacedTwo).toBeFalsy()
+})
+
+test('Gameboard is cleared', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const board = gameBoard.getBoard()
+  const coordinates = [
+    [1, 0],
+    [0, 3],
+    [0, 3]
+  ]
+
+  gameBoard.placeShip(coordinates)
+
+  // simulate ship miss
+  gameBoard.receiveAttack([1, 2])
+  // simulate ship hit
+  gameBoard.receiveAttack([1, 0])
+
+  gameBoard.clearGameBoard()
+
+  let boardReferencesCleared = true
+  if (gameBoard.getShipObjects().length !== 0) {
+    boardReferencesCleared = false
+  } else if (gameBoard.getMissedShots().length !== 0) {
+    boardReferencesCleared = false
+  } else if (gameBoard.getAIAvailableMoves().length !== 0) {
+    boardReferencesCleared = false
+  } else if (gameBoard.getSuccessfulShots().length !== 0) {
+    boardReferencesCleared = false
+  }
+
+  expect(boardReferencesCleared).toBeTruthy()
 })
 
 // !!!REMOVE THIS TEST, IT IS NOT NEEDED!!!

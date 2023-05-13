@@ -1,8 +1,8 @@
 import { gameController } from './gameController'
 
 const game = gameController()
-
 const displayController = () => {
+  game.placeAllShips()
   renderPlayerBoard()
   renderAIBoard()
   const aiBoardDiv = document.getElementById('AIBoard')
@@ -135,18 +135,65 @@ const updateAIBoard = () => {
 const handlePlayerSelectionEvt = (e) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
+  const aiBoardDiv = document.getElementById('AIBoard')
 
   if (!selectedColumn || !selectedRow) {
     return handlePlayerSelectionEvt
   }
 
+  const aiBoard = game.getAIBoardObj
   const coordinate = [selectedRow, selectedColumn]
-
+  const alreadyAttacked = aiBoard.preventSameAttack(coordinate)
+  if (alreadyAttacked){
+    return
+  }
+ 
   game.playRound(coordinate)
+  const humanWins = game.checkForWin()
+
   updateAIBoard()
-  // Create a function called handleAImove
+  if (humanWins) {
+    aiBoardDiv.removeEventListener('click', handlePlayerSelectionEvt)
+    game.resetGameState()
+    announceWinner(humanWins)
+    playAgain()
+  }
+  handleAIMove(aiBoardDiv)
+}
+
+const handleAIMove = (aiBoardDiv) => {
   game.playRound()
+  const aiWins = game.checkForWin()
+
   updateHumanBoard()
+  if (aiWins) {
+    aiBoardDiv.removeEventListener('click', handlePlayerSelectionEvt)
+    game.resetGameState()
+    announceWinner(aiWins)
+    playAgain()
+  }
+}
+
+const announceWinner = (winner) => {
+  const topBarPara = document.querySelector('.topBarContainer > p')
+  const winnerName = winner.getName()
+  topBarPara.textContent = `${winnerName} win's!`
+}
+
+const playAgain = () => {
+  const topBarDiv = document.querySelector('.topBarContainer')
+  const playAgainBtn = document.createElement('button')
+  playAgainBtn.textContent = 'Play again'
+  topBarDiv.appendChild(playAgainBtn)
+  playAgainBtn.addEventListener('click', startNewGame)
+}
+
+const startNewGame = () => {
+  const topBarDiv = document.querySelector('.topBarContainer')
+  const playAgainBtn = document.querySelector('.topBarContainer > button')
+  topBarDiv.removeChild(playAgainBtn)
+  document.querySelector('.topBarContainer > p').textContent = ''
+  displayController()
 }
 
 // const handlePlayerSeletion

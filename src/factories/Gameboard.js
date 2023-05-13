@@ -12,6 +12,7 @@ export const Gameboard = () => {
   const columns = 9
 
   const createGameBoard = () => {
+    board = []
     for (let i = rows; i >= 0; i--) {
       board[i] = []
       for (let j = 0; j <= columns; j++) {
@@ -111,11 +112,38 @@ export const Gameboard = () => {
     return shipPlaced
   }
 
+  // prevents human player from attacking previously
+  // attacked coordinate
+  const preventSameAttack = (coordinate) => {
+    let alreadyAttacked = false
+    successfulShots.forEach((shot) => {
+      if (arraysAreEqual(coordinate, shot)) {
+        alreadyAttacked = true
+        return preventSameAttack
+      }
+    })
+
+    missedShots.forEach((shot) => {
+      if (arraysAreEqual(coordinate, shot)) {
+        alreadyAttacked = true
+        return preventSameAttack
+      }
+    })
+    return alreadyAttacked
+  }
+
   const receiveAttack = (coordinates) => {
     const row = coordinates[0]
     const column = coordinates[1]
     const boardCell = board[row][column]
     const shipObj = boardCell
+
+    // Need to check if new coordinate is already
+    // inside successfulShots or missedShots
+    const alreadyAttacked = preventSameAttack(coordinates)
+    if (alreadyAttacked) {
+      return false
+    }
 
     if (typeof boardCell === 'object') {
       shipObj.hit()
@@ -144,6 +172,13 @@ export const Gameboard = () => {
     })
   }
 
+  const clearGameBoard = () => {
+    shipObjects.length = 0
+    missedShots.length = 0
+    aiAvailableMoves.length = 0
+    successfulShots.length = 0
+  }
+
   const getBoard = () => {
     return board
   }
@@ -169,11 +204,13 @@ export const Gameboard = () => {
     getBoard,
     placeShip,
     receiveAttack,
+    clearGameBoard,
     getMissedShots,
     getSuccessfulShots,
     allShipsSunk,
     getAIAvailableMoves,
     validateCoordinates,
+    preventSameAttack,
     checkSelfOverlap,
     getShipObjects,
     removeLastAIMove,
