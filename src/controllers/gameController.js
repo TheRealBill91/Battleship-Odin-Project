@@ -1,5 +1,6 @@
 import { Gameboard } from '../factories/Gameboard'
 import { Player } from '../factories/Player'
+import { returnRandomAIBoard } from '../helpers/rotateAIBoards'
 
 const gameController = () => {
   // Create two game boards
@@ -39,39 +40,98 @@ const gameController = () => {
     ]
   }
 
-  const aiShipCoords = {
-    carrier: [
-      [9, 0],
-      [9, 1],
-      [9, 2],
-      [9, 3],
-      [9, 4]
-    ],
-    battleship: [
-      [5, 5],
-      [6, 5],
-      [7, 5],
-      [8, 5]
-    ],
-    cruiser: [
-      [0, 6],
-      [1, 6],
-      [2, 6]
-    ],
-    submarine: [
-      [3, 8],
-      [4, 8],
-      [5, 8]
-    ],
-    destroyer: [
-      [0, 9],
-      [1, 9]
-    ]
+  const placeCarrierShip = (coordinate) => {
+    let carrierPlaced = true
+    const carrierArr = []
+    carrierArr.push(coordinate)
+    for (let i = 1; i < 5; i++) {
+      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+      carrierArr.push(coord)
+    }
+
+    const shipPlaced = humanBoard.placeShip(carrierArr)
+    if (!shipPlaced) {
+      carrierPlaced = false
+      return carrierPlaced
+    }
+
+    return carrierPlaced
   }
 
-  const placeAllShips = () => {
-    placeShips(humanBoard, playerShipCoords)
-    placeShips(aiBoard, aiShipCoords)
+  const placeBattleShip = (coordinate) => {
+    let battleshipPlaced = true
+    const battleshipArr = []
+    battleshipArr.push(coordinate)
+    for (let i = 1; i < 4; i++) {
+      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+      battleshipArr.push(coord)
+    }
+
+    const shipPlaced = humanBoard.placeShip(battleshipArr)
+    if (!shipPlaced) {
+      battleshipPlaced = false
+      return battleshipPlaced
+    }
+
+    return battleshipPlaced
+  }
+
+  const placeCruiserShip = (coordinate) => {
+    let cruiserPlaced = true
+    const cruiserArr = []
+    cruiserArr.push(coordinate)
+    for (let i = 1; i < 3; i++) {
+      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+      cruiserArr.push(coord)
+    }
+
+    const shipPlaced = humanBoard.placeShip(cruiserArr)
+    if (!shipPlaced) {
+      cruiserPlaced = false
+      return cruiserPlaced
+    }
+
+    return cruiserPlaced
+  }
+
+  const placeSubmarineShip = (coordinate) => {
+    let submarinePlaced = true
+    const submarineArr = []
+    submarineArr.push(coordinate)
+    for (let i = 1; i < 3; i++) {
+      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+      submarineArr.push(coord)
+    }
+
+    const shipPlaced = humanBoard.placeShip(submarineArr)
+    if (!shipPlaced) {
+      submarinePlaced = false
+      return submarinePlaced
+    }
+
+    return submarinePlaced
+  }
+
+  const placeDestroyerShip = (coordinate) => {
+    let destroyerPlaced = true
+    const submarineArr = []
+    submarineArr.push(coordinate)
+    for (let i = 1; i < 2; i++) {
+      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+      submarineArr.push(coord)
+    }
+
+    const shipPlaced = humanBoard.placeShip(submarineArr)
+    if (!shipPlaced) {
+      destroyerPlaced = false
+      return destroyerPlaced
+    }
+
+    return destroyerPlaced
+  }
+
+  const placeAIShips = () => {
+    placeShips(aiBoard, returnRandomAIBoard())
   }
 
   const players = {}
@@ -148,7 +208,12 @@ const gameController = () => {
     resetGameState,
     checkForWin,
     getPlayers,
-    placeAllShips
+    placeAIShips,
+    placeCarrierShip,
+    placeBattleShip,
+    placeCruiserShip,
+    placeSubmarineShip,
+    placeDestroyerShip
   }
 }
 
@@ -160,3 +225,7 @@ const placeShips = (board, coordinatesObj) => {
     board.placeShip(shipCoordinates)
   })
 }
+
+/* const placeEachHumanShip = (coordinate) => {
+  humanBoard.placeShip(coordinate)
+} */

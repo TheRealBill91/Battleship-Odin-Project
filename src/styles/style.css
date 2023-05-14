@@ -44,6 +44,11 @@ button.shipCell {
     background-color: grey;
 }
 
+#AIBoard button,
+#playerBoard button {
+    border-radius: 0;
+}
+
 #boardsContainer {
     display: flex;
     justify-content: center;
