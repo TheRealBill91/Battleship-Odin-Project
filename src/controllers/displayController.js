@@ -24,40 +24,179 @@ const displayController = () => {
 const placeCarrierShip = () => {
   const topBarPara = document.querySelector('.topBarContainer > p')
   topBarPara.textContent = 'Place your carrier ship'
+
   const humanBoardDiv = document.querySelector('#playerBoard')
-  humanBoardDiv.addEventListener('click', handleCarrierShipPlacement)
+
+  const topBarDiv = document.querySelector('.topBarContainer')
+  let horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.createElement('button')
+  orientationToggleBtn.classList.add('orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  topBarDiv.appendChild(orientationToggleBtn)
+  orientationToggleBtn.addEventListener(
+    'click',
+    () => {
+      if (horizontalShipOrientationStatus === true) {
+        horizontalShipOrientationStatus = false
+        orientationToggleBtn.textContent = 'Vertical'
+      } else {
+        horizontalShipOrientationStatus = true
+        orientationToggleBtn.textContent = 'Horizontal'
+      }
+    },
+    { once: true }
+  )
+
+  humanBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      handleCarrierShipPlacement(e, horizontalShipOrientationStatus)
+    },
+    { once: true }
+  )
 }
 
 const placeBattleShip = () => {
-  const humanBoardDiv = document.querySelector('#playerBoard')
-  humanBoardDiv.removeEventListener('click', handleCarrierShipPlacement)
   const topBarPara = document.querySelector('.topBarContainer > p')
-  topBarPara.textContent = 'Place your battle ship'
-  humanBoardDiv.addEventListener('click', handleBattleShipPlacement)
+  topBarPara.textContent = 'Place your battleship'
+
+  const humanBoardDiv = document.querySelector('#playerBoard')
+  let horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  orientationToggleBtn.addEventListener(
+    'click',
+    () => {
+      if (horizontalShipOrientationStatus === true) {
+        horizontalShipOrientationStatus = false
+        orientationToggleBtn.textContent = 'Vertical'
+      } else {
+        horizontalShipOrientationStatus = true
+        orientationToggleBtn.textContent = 'Horizontal'
+      }
+    },
+    { once: true }
+  )
+
+  humanBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      console.log(
+        'Orientation status going into placement:' +
+          horizontalShipOrientationStatus
+      )
+      handleBattleShipPlacement(e, horizontalShipOrientationStatus)
+    },
+    { once: true }
+  )
 }
 
 const placeCruiser = () => {
-  const humanBoardDiv = document.querySelector('#playerBoard')
-  humanBoardDiv.removeEventListener('click', handleBattleShipPlacement)
   const topBarPara = document.querySelector('.topBarContainer > p')
-  topBarPara.textContent = 'Place your cruiser ship'
-  humanBoardDiv.addEventListener('click', handleCruiserShipPlacement)
+  topBarPara.textContent = 'Place your Cruiser'
+
+  const humanBoardDiv = document.querySelector('#playerBoard')
+
+  let horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  orientationToggleBtn.addEventListener(
+    'click',
+    () => {
+      if (horizontalShipOrientationStatus === true) {
+        horizontalShipOrientationStatus = false
+        orientationToggleBtn.textContent = 'Vertical'
+      } else {
+        horizontalShipOrientationStatus = true
+        orientationToggleBtn.textContent = 'Horizontal'
+      }
+    },
+    { once: true }
+  )
+
+  humanBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      console.log(
+        'Orientation status going into placement:' +
+          horizontalShipOrientationStatus
+      )
+      handleCruiserShipPlacement(e, horizontalShipOrientationStatus)
+    },
+    { once: true }
+  )
 }
 
 const placeSubmarine = () => {
-  const humanBoardDiv = document.querySelector('#playerBoard')
-  humanBoardDiv.removeEventListener('click', handleCruiserShipPlacement)
   const topBarPara = document.querySelector('.topBarContainer > p')
-  topBarPara.textContent = 'Place your submarine'
-  humanBoardDiv.addEventListener('click', handleSubmarineShipPlacement)
+  topBarPara.textContent = 'Place your Submarine'
+
+  const humanBoardDiv = document.querySelector('#playerBoard')
+
+  let horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  orientationToggleBtn.addEventListener(
+    'click',
+    () => {
+      if (horizontalShipOrientationStatus === true) {
+        horizontalShipOrientationStatus = false
+        orientationToggleBtn.textContent = 'Vertical'
+      } else {
+        horizontalShipOrientationStatus = true
+        orientationToggleBtn.textContent = 'Horizontal'
+      }
+    },
+    { once: true }
+  )
+
+  humanBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      console.log(
+        'Orientation status going into placement:' +
+          horizontalShipOrientationStatus
+      )
+      handleSubmarineShipPlacement(e, horizontalShipOrientationStatus)
+    },
+    { once: true }
+  )
 }
 
 const placeDestroyer = () => {
-  const humanBoardDiv = document.querySelector('#playerBoard')
-  humanBoardDiv.removeEventListener('click', handleSubmarineShipPlacement)
   const topBarPara = document.querySelector('.topBarContainer > p')
-  topBarPara.textContent = 'Place your destroyer'
-  humanBoardDiv.addEventListener('click', handleDestroyerShipPlacement)
+  topBarPara.textContent = 'Place your Destroyer'
+
+  const humanBoardDiv = document.querySelector('#playerBoard')
+
+  let horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  orientationToggleBtn.addEventListener(
+    'click',
+    () => {
+      if (horizontalShipOrientationStatus === true) {
+        horizontalShipOrientationStatus = false
+        orientationToggleBtn.textContent = 'Vertical'
+      } else {
+        horizontalShipOrientationStatus = true
+        orientationToggleBtn.textContent = 'Horizontal'
+      }
+    },
+    { once: true }
+  )
+
+  humanBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      console.log(
+        'Orientation status going into placement:' +
+          horizontalShipOrientationStatus
+      )
+      handleDestroyerShipPlacement(e, horizontalShipOrientationStatus)
+    },
+    { once: true }
+  )
 }
 
 const renderPlayerBoard = () => {
@@ -175,12 +314,15 @@ const updateAIBoard = () => {
   })
 }
 
-const handleCarrierShipPlacement = (e) => {
+const handleCarrierShipPlacement = (e, horizontalShipOrientation) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
 
-  const carrierPlaced = placeCarrierOnBoard(coordinate)
+  const carrierPlaced = placeCarrierOnBoard(
+    coordinate,
+    horizontalShipOrientation
+  )
 
   if (carrierPlaced) {
     placeBattleShip()
@@ -189,12 +331,15 @@ const handleCarrierShipPlacement = (e) => {
   }
 }
 
-const handleBattleShipPlacement = (e) => {
+const handleBattleShipPlacement = (e, horizontalShipOrientation) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
 
-  const battleshipPlaced = placeBattleshipOnBoard(coordinate)
+  const battleshipPlaced = placeBattleshipOnBoard(
+    coordinate,
+    horizontalShipOrientation
+  )
 
   if (battleshipPlaced) {
     placeCruiser()
@@ -203,12 +348,15 @@ const handleBattleShipPlacement = (e) => {
   }
 }
 
-const handleCruiserShipPlacement = (e) => {
+const handleCruiserShipPlacement = (e, horizontalShipOrientation) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
 
-  const cruiserPlaced = placeCruiserOnBoard(coordinate)
+  const cruiserPlaced = placeCruiserOnBoard(
+    coordinate,
+    horizontalShipOrientation
+  )
 
   if (cruiserPlaced) {
     placeSubmarine()
@@ -217,26 +365,32 @@ const handleCruiserShipPlacement = (e) => {
   }
 }
 
-const handleSubmarineShipPlacement = (e) => {
+const handleSubmarineShipPlacement = (e, horizontalShipOrientation) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
 
-  const cruiserPlaced = placeSubmarineOnBoard(coordinate)
+  const submarinePlaced = placeSubmarineOnBoard(
+    coordinate,
+    horizontalShipOrientation
+  )
 
-  if (cruiserPlaced) {
+  if (submarinePlaced) {
     placeDestroyer()
   } else {
     return placeSubmarine
   }
 }
 
-const handleDestroyerShipPlacement = (e) => {
+const handleDestroyerShipPlacement = (e, horizontalShipOrientation) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
 
-  const destroyerPlaced = placeDestroyerOnBoard(coordinate)
+  const destroyerPlaced = placeDestroyerOnBoard(
+    coordinate,
+    horizontalShipOrientation
+  )
 
   if (destroyerPlaced) {
     displayController()
@@ -245,106 +399,157 @@ const handleDestroyerShipPlacement = (e) => {
   }
 }
 
-const placeCarrierOnBoard = (coordinate) => {
-  const carrierPlaced = game.placeCarrierShip(coordinate)
+const placeCarrierOnBoard = (coordinate, horizontalShipOrientation) => {
+  const shipType = 'carrier'
+  const carrierPlaced = game.placeCarrierShip(
+    coordinate,
+    horizontalShipOrientation
+  )
   const boardDOMCellsArr = [
     ...document.querySelectorAll('#playerBoard > button')
   ]
   if (!carrierPlaced) {
     return carrierPlaced
   } else {
-    const startingColumn = Number(coordinate[1])
-
-    for (let i = startingColumn; i < startingColumn + 5; i++) {
-      const row = +coordinate[0]
-      const column = i
-      const domCoordinate = [row, column]
-      const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
-      targetDOMBtn.classList.add('shipCell')
+    if (horizontalShipOrientation) {
+      getHorizontalDOMCoords(coordinate, boardDOMCellsArr, shipType)
+    } else if (!horizontalShipOrientation) {
+      getVerticalDOMCoords(coordinate, boardDOMCellsArr, shipType)
     }
   }
   return carrierPlaced
 }
 
-const placeBattleshipOnBoard = (coordinate) => {
-  const battleshipPlaced = game.placeBattleShip(coordinate)
+const placeBattleshipOnBoard = (coordinate, horizontalShipOrientation) => {
+  const shipType = 'battleship'
+  const battleshipPlaced = game.placeBattleShip(
+    coordinate,
+    horizontalShipOrientation
+  )
   const boardDOMCellsArr = [
     ...document.querySelectorAll('#playerBoard > button')
   ]
   if (!battleshipPlaced) {
     return battleshipPlaced
   } else {
-    const startingColumn = Number(coordinate[1])
-
-    for (let i = startingColumn; i < startingColumn + 4; i++) {
-      const row = +coordinate[0]
-      const column = i
-      const domCoordinate = [row, column]
-      const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
-      targetDOMBtn.classList.add('shipCell')
+    if (horizontalShipOrientation) {
+      getHorizontalDOMCoords(coordinate, boardDOMCellsArr, shipType)
+    } else if (!horizontalShipOrientation) {
+      getVerticalDOMCoords(coordinate, boardDOMCellsArr, shipType)
     }
   }
   return battleshipPlaced
 }
 
-const placeCruiserOnBoard = (coordinate) => {
-  const cruiserPlaced = game.placeCruiserShip(coordinate)
+const placeCruiserOnBoard = (coordinate, horizontalShipOrientation) => {
+  const shipType = 'cruiser'
+  const cruiserPlaced = game.placeCruiserShip(
+    coordinate,
+    horizontalShipOrientation
+  )
   const boardDOMCellsArr = [
     ...document.querySelectorAll('#playerBoard > button')
   ]
   if (!cruiserPlaced) {
     return cruiserPlaced
   } else {
-    const startingColumn = Number(coordinate[1])
-    for (let i = startingColumn; i < startingColumn + 3; i++) {
-      const row = +coordinate[0]
-      const column = i
-      const domCoordinate = [row, column]
-      const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
-      targetDOMBtn.classList.add('shipCell')
+    if (horizontalShipOrientation) {
+      getHorizontalDOMCoords(coordinate, boardDOMCellsArr, shipType)
+    } else if (!horizontalShipOrientation) {
+      getVerticalDOMCoords(coordinate, boardDOMCellsArr, shipType)
     }
   }
   return cruiserPlaced
 }
 
-const placeSubmarineOnBoard = (coordinate) => {
-  const submarinePlaced = game.placeSubmarineShip(coordinate)
+const placeSubmarineOnBoard = (coordinate, horizontalShipOrientation) => {
+  const shipType = 'submarine'
+  const submarinePlaced = game.placeSubmarineShip(
+    coordinate,
+    horizontalShipOrientation
+  )
   const boardDOMCellsArr = [
     ...document.querySelectorAll('#playerBoard > button')
   ]
   if (!submarinePlaced) {
     return submarinePlaced
   } else {
-    const startingColumn = Number(coordinate[1])
-    for (let i = startingColumn; i < startingColumn + 3; i++) {
-      const row = +coordinate[0]
-      const column = i
-      const domCoordinate = [row, column]
-      const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
-      targetDOMBtn.classList.add('shipCell')
+    if (horizontalShipOrientation) {
+      getHorizontalDOMCoords(coordinate, boardDOMCellsArr, shipType)
+    } else if (!horizontalShipOrientation) {
+      getVerticalDOMCoords(coordinate, boardDOMCellsArr, shipType)
     }
   }
   return submarinePlaced
 }
 
-const placeDestroyerOnBoard = (coordinate) => {
-  const destroyerPlaced = game.placeDestroyerShip(coordinate)
+const placeDestroyerOnBoard = (coordinate, horizontalShipOrientation) => {
+  const shipType = 'destroyer'
+  const destroyerPlaced = game.placeDestroyerShip(
+    coordinate,
+    horizontalShipOrientation
+  )
   const boardDOMCellsArr = [
     ...document.querySelectorAll('#playerBoard > button')
   ]
   if (!destroyerPlaced) {
     return destroyerPlaced
   } else {
-    const startingColumn = Number(coordinate[1])
-    for (let i = startingColumn; i < startingColumn + 2; i++) {
-      const row = +coordinate[0]
-      const column = i
-      const domCoordinate = [row, column]
-      const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
-      targetDOMBtn.classList.add('shipCell')
+    if (horizontalShipOrientation) {
+      getHorizontalDOMCoords(coordinate, boardDOMCellsArr, shipType)
+    } else if (!horizontalShipOrientation) {
+      getVerticalDOMCoords(coordinate, boardDOMCellsArr, shipType)
     }
   }
   return destroyerPlaced
+}
+
+const getHorizontalDOMCoords = (coordinate, boardDOMCellsArr, shipType) => {
+  const startingColumn = Number(coordinate[1])
+  const shipLength =
+    shipType === 'carrier'
+      ? 5
+      : shipType === 'battleship'
+      ? 4
+      : shipType === 'cruiser'
+      ? 3
+      : shipType === 'submarine'
+      ? 3
+      : shipType === 'destroyer'
+      ? 2
+      : null
+
+  for (let i = startingColumn; i < startingColumn + shipLength; i++) {
+    const row = +coordinate[0]
+    const column = i
+    const domCoordinate = [row, column]
+    const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
+    targetDOMBtn.classList.add('shipCell')
+  }
+}
+
+const getVerticalDOMCoords = (coordinate, boardDOMCellsArr, shipType) => {
+  const startingRow = Number(coordinate[0])
+  const shipLength =
+    shipType === 'carrier'
+      ? 5
+      : shipType === 'battleship'
+      ? 4
+      : shipType === 'cruiser'
+      ? 3
+      : shipType === 'submarine'
+      ? 3
+      : shipType === 'destroyer'
+      ? 2
+      : null
+
+  for (let i = startingRow; i > startingRow - shipLength; i--) {
+    const row = i
+    const column = +coordinate[1]
+    const domCoordinate = [row, column]
+    const targetDOMBtn = findShipDOMBtn(boardDOMCellsArr, domCoordinate)
+    targetDOMBtn.classList.add('shipCell')
+  }
 }
 
 const findShipDOMBtn = (boardDOMCellsArr, domCoordinate) => {

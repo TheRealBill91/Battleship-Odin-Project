@@ -10,44 +10,13 @@ const gameController = () => {
   const aiBoard = Gameboard()
   aiBoard.createGameBoard()
 
-  const playerShipCoords = {
-    carrier: [
-      [0, 0],
-      [0, 1],
-      [0, 2],
-      [0, 3],
-      [0, 4]
-    ],
-    battleship: [
-      [2, 2],
-      [2, 3],
-      [2, 4],
-      [2, 5]
-    ],
-    cruiser: [
-      [4, 0],
-      [5, 0],
-      [6, 0]
-    ],
-    submarine: [
-      [7, 1],
-      [7, 2],
-      [7, 3]
-    ],
-    destroyer: [
-      [1, 0],
-      [2, 0]
-    ]
-  }
-
-  const placeCarrierShip = (coordinate) => {
+  const placeCarrierShip = (coordinate, horizontalShipOrientation) => {
     let carrierPlaced = true
-    const carrierArr = []
-    carrierArr.push(coordinate)
-    for (let i = 1; i < 5; i++) {
-      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
-      carrierArr.push(coord)
-    }
+
+    const carrierArr = determineCarrierArrCoords(
+      horizontalShipOrientation,
+      coordinate
+    )
 
     const shipPlaced = humanBoard.placeShip(carrierArr)
     if (!shipPlaced) {
@@ -58,14 +27,30 @@ const gameController = () => {
     return carrierPlaced
   }
 
-  const placeBattleShip = (coordinate) => {
-    let battleshipPlaced = true
-    const battleshipArr = []
-    battleshipArr.push(coordinate)
-    for (let i = 1; i < 4; i++) {
-      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
-      battleshipArr.push(coord)
+  const determineCarrierArrCoords = (horizontalShipOrientation, coordinate) => {
+    const carrierArr = []
+    if (horizontalShipOrientation) {
+      carrierArr.push(coordinate)
+      for (let i = 1; i < 5; i++) {
+        const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+        carrierArr.push(coord)
+      }
+    } else if (!horizontalShipOrientation) {
+      carrierArr.push(coordinate)
+      for (let i = 1; i < 5; i++) {
+        const coord = [(+coordinate[0] - i).toString(), coordinate[1]]
+        carrierArr.push(coord)
+      }
     }
+    return carrierArr
+  }
+
+  const placeBattleShip = (coordinate, horizontalShipOrientation) => {
+    let battleshipPlaced = true
+    const battleshipArr = determineBattleshipArrCoords(
+      horizontalShipOrientation,
+      coordinate
+    )
 
     const shipPlaced = humanBoard.placeShip(battleshipArr)
     if (!shipPlaced) {
@@ -76,14 +61,33 @@ const gameController = () => {
     return battleshipPlaced
   }
 
-  const placeCruiserShip = (coordinate) => {
-    let cruiserPlaced = true
-    const cruiserArr = []
-    cruiserArr.push(coordinate)
-    for (let i = 1; i < 3; i++) {
-      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
-      cruiserArr.push(coord)
+  const determineBattleshipArrCoords = (
+    horizontalShipOrientation,
+    coordinate
+  ) => {
+    const battleshipArr = []
+    if (horizontalShipOrientation) {
+      battleshipArr.push(coordinate)
+      for (let i = 1; i < 4; i++) {
+        const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+        battleshipArr.push(coord)
+      }
+    } else if (!horizontalShipOrientation) {
+      battleshipArr.push(coordinate)
+      for (let i = 1; i < 4; i++) {
+        const coord = [(+coordinate[0] - i).toString(), coordinate[1]]
+        battleshipArr.push(coord)
+      }
     }
+    return battleshipArr
+  }
+
+  const placeCruiserShip = (coordinate, horizontalShipOrientation) => {
+    let cruiserPlaced = true
+    const cruiserArr = determineCruiserArrCoords(
+      horizontalShipOrientation,
+      coordinate
+    )
 
     const shipPlaced = humanBoard.placeShip(cruiserArr)
     if (!shipPlaced) {
@@ -94,14 +98,30 @@ const gameController = () => {
     return cruiserPlaced
   }
 
-  const placeSubmarineShip = (coordinate) => {
-    let submarinePlaced = true
-    const submarineArr = []
-    submarineArr.push(coordinate)
-    for (let i = 1; i < 3; i++) {
-      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
-      submarineArr.push(coord)
+  const determineCruiserArrCoords = (horizontalShipOrientation, coordinate) => {
+    const cruiserArr = []
+    if (horizontalShipOrientation) {
+      cruiserArr.push(coordinate)
+      for (let i = 1; i < 3; i++) {
+        const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+        cruiserArr.push(coord)
+      }
+    } else if (!horizontalShipOrientation) {
+      cruiserArr.push(coordinate)
+      for (let i = 1; i < 3; i++) {
+        const coord = [(+coordinate[0] - i).toString(), coordinate[1]]
+        cruiserArr.push(coord)
+      }
     }
+    return cruiserArr
+  }
+
+  const placeSubmarineShip = (coordinate, horizontalShipOrientation) => {
+    let submarinePlaced = true
+    const submarineArr = determineSubmarineArrCoords(
+      horizontalShipOrientation,
+      coordinate
+    )
 
     const shipPlaced = humanBoard.placeShip(submarineArr)
     if (!shipPlaced) {
@@ -112,22 +132,62 @@ const gameController = () => {
     return submarinePlaced
   }
 
-  const placeDestroyerShip = (coordinate) => {
-    let destroyerPlaced = true
+  const determineSubmarineArrCoords = (
+    horizontalShipOrientation,
+    coordinate
+  ) => {
     const submarineArr = []
-    submarineArr.push(coordinate)
-    for (let i = 1; i < 2; i++) {
-      const coord = [coordinate[0], (+coordinate[1] + i).toString()]
-      submarineArr.push(coord)
+    if (horizontalShipOrientation) {
+      submarineArr.push(coordinate)
+      for (let i = 1; i < 3; i++) {
+        const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+        submarineArr.push(coord)
+      }
+    } else if (!horizontalShipOrientation) {
+      submarineArr.push(coordinate)
+      for (let i = 1; i < 3; i++) {
+        const coord = [(+coordinate[0] - i).toString(), coordinate[1]]
+        submarineArr.push(coord)
+      }
     }
+    return submarineArr
+  }
 
-    const shipPlaced = humanBoard.placeShip(submarineArr)
+  const placeDestroyerShip = (coordinate, horizontalShipOrientation) => {
+    let destroyerPlaced = true
+    const destroyerArr = determineDestroyerArrCoords(
+      horizontalShipOrientation,
+      coordinate
+    )
+
+    const shipPlaced = humanBoard.placeShip(destroyerArr)
     if (!shipPlaced) {
       destroyerPlaced = false
       return destroyerPlaced
     }
 
     return destroyerPlaced
+  }
+
+  const determineDestroyerArrCoords = (
+    horizontalShipOrientation,
+    coordinate
+  ) => {
+    const destroyerArr = []
+    if (horizontalShipOrientation) {
+      destroyerArr.push(coordinate)
+      for (let i = 1; i < 2; i++) {
+        const coord = [coordinate[0], (+coordinate[1] + i).toString()]
+        destroyerArr.push(coord)
+      }
+    } else if (!horizontalShipOrientation) {
+      destroyerArr.push(coordinate)
+      for (let i = 1; i < 2; i++) {
+        const coord = [(+coordinate[0] - i).toString(), coordinate[1]]
+        destroyerArr.push(coord)
+      }
+    }
+    return destroyerArr
   }
 
   const placeAIShips = () => {
