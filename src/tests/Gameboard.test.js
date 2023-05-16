@@ -1,5 +1,6 @@
 import { Gameboard } from '../factories/Gameboard'
 import { Player } from '../factories/Player'
+import { arraysAreEqual } from '../helpers/arraysAreEqual'
 
 test('checks the number of rows', () => {
   const gameBoard = Gameboard()
@@ -276,9 +277,57 @@ test('Gameboard is cleared', () => {
     boardReferencesCleared = false
   } else if (gameBoard.getSuccessfulShots().length !== 0) {
     boardReferencesCleared = false
+  } else if (gameBoard.getAdjacentSlotsQueue().length !== 0) {
+    boardReferencesCleared = false
   }
 
   expect(boardReferencesCleared).toBeTruthy()
+})
+
+test('checks legal adjacent slots are added to the queue ', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+  const player = Player('Computer', true)
+  let adjacentSlots
+  const availableMoves = gameBoard.getAIAvailableMoves()
+
+  const shipCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2]
+  ]
+
+  gameBoard.placeShip(shipCoordinates)
+  gameBoard.receiveAttack([0, 0])
+  const lastAIMoveSuccessful = gameBoard.getLastAIMoveSuccessful()
+  if (lastAIMoveSuccessful) {
+    adjacentSlots = player.getAdjacentSlots(
+      true,
+      availableMoves,
+      gameBoard.getAdjacentSlotsQueue(),
+      gameBoard.getSuccessfulShots()
+    )
+  }
+
+  gameBoard.addAdjacentSlotsToQueue(adjacentSlots)
+  const adjacentQueue = gameBoard.getAdjacentSlotsQueue()
+
+  const finalCoordinates = [
+    [1, 0],
+    [0, 1]
+  ]
+
+  let arraysAreEqualValue
+  for (let i = 0; i < adjacentQueue.length; i++) {
+    if (arraysAreEqual(adjacentQueue[i], finalCoordinates[i])) {
+      arraysAreEqualValue = true
+    } else {
+      arraysAreEqualValue = undefined
+      break
+    }
+  }
+
+  expect(arraysAreEqualValue).toBeTruthy()
 })
 
 // !!!REMOVE THIS TEST, IT IS NOT NEEDED!!!

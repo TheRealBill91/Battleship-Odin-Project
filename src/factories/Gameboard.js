@@ -8,8 +8,10 @@ export const Gameboard = () => {
   const missedShots = []
   const aiAvailableMoves = []
   const successfulShots = []
+  const adjacentSlotsQueue = []
   const rows = 9
   const columns = 9
+  let lastAIMoveSuccessful = false
 
   const createGameBoard = () => {
     board = []
@@ -147,8 +149,10 @@ export const Gameboard = () => {
 
     if (typeof boardCell === 'object') {
       shipObj.hit()
+      lastAIMoveSuccessful = true
       successfulShots.push(coordinates)
     } else if (typeof boardCell !== 'object') {
+      lastAIMoveSuccessful = false
       missedShots.push(coordinates)
     }
   }
@@ -172,11 +176,18 @@ export const Gameboard = () => {
     })
   }
 
+  const addAdjacentSlotsToQueue = (adjacentSlots) => {
+    adjacentSlots.forEach((slot) => {
+      adjacentSlotsQueue.push(slot)
+    })
+  }
+
   const clearGameBoard = () => {
     shipObjects.length = 0
     missedShots.length = 0
     aiAvailableMoves.length = 0
     successfulShots.length = 0
+    adjacentSlotsQueue.length = 0
   }
 
   const getBoard = () => {
@@ -199,6 +210,18 @@ export const Gameboard = () => {
     return aiAvailableMoves
   }
 
+  const getLastAIMoveSuccessful = () => {
+    return lastAIMoveSuccessful
+  }
+
+  const getAdjacentSlotsQueue = () => {
+    return adjacentSlotsQueue
+  }
+
+  const getAdjacentQueueSlot = () => {
+    return adjacentSlotsQueue.pop()
+  }
+
   return {
     createGameBoard,
     getBoard,
@@ -214,6 +237,10 @@ export const Gameboard = () => {
     checkSelfOverlap,
     getShipObjects,
     removeLastAIMove,
-    checkOverlapWithOtherShips
+    checkOverlapWithOtherShips,
+    getLastAIMoveSuccessful,
+    getAdjacentSlotsQueue,
+    addAdjacentSlotsToQueue,
+    getAdjacentQueueSlot
   }
 }

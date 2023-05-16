@@ -215,14 +215,27 @@ const gameController = () => {
     if (currentPlayer.getName() === players.human.getName()) {
       aiBoard.receiveAttack(coordinate)
     } else if (currentPlayer.getName() === players.AI.getName()) {
-      const availableMoves = humanBoard.getAIAvailableMoves()
-      const randomMove = currentPlayer.makeRandomMove(true, availableMoves)
-      humanBoard.receiveAttack(randomMove)
-      humanBoard.removeLastAIMove(randomMove)
+      const nextMove = computersNextMove()
+      humanBoard.receiveAttack(nextMove)
+      humanBoard.removeLastAIMove(nextMove)
     }
 
     switchPlayer()
     console.log(currentPlayer.getName())
+  }
+
+  const computersNextMove = () => {
+    const availableMoves = humanBoard.getAIAvailableMoves()
+    const lastAIMoveSuccessful = humanBoard.getLastAIMoveSuccessful()
+    if (lastAIMoveSuccessful) {
+      const adjacentSlots = currentPlayer.getAdjacentSlots()
+      humanBoard.addAdjacentSlotsToQueue(adjacentSlots)
+      const nextMove = humanBoard.getAdjacentQueueSlot()
+      return nextMove
+    } else if (!lastAIMoveSuccessful) {
+      const randomMove = currentPlayer.makeRandomMove(true, availableMoves)
+      return randomMove
+    }
   }
 
   const switchPlayer = () => {
