@@ -50,7 +50,7 @@ export const Player = (name, isAI) => {
       return 'illegal'
     }
     newArr[0] = newRow
-    newArr[1] =  lastSuccessfulMove[1]
+    newArr[1] = lastSuccessfulMove[1]
     return newArr
   }
 
@@ -101,6 +101,12 @@ export const Player = (name, isAI) => {
       }
     })
     return adjacentSlotsArr
+  }
+
+  // if the computer has already (randomly) guessed a spot on the board, prevent
+  // adding the spot to the adjacency list
+  const preventPreviousShotToQueue = (coordinate) => {
+    // in progress
   }
 
   return { makeRandomMove, getName, getAdjacentSlots, getCellAbove }

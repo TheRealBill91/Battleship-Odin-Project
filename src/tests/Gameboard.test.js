@@ -330,6 +330,35 @@ test('checks legal adjacent slots are added to the queue ', () => {
   expect(arraysAreEqualValue).toBeTruthy()
 })
 
+test.only('check if slot in adjacency queue is removed', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+
+  const shipCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2]
+  ]
+
+  const player = Player('Computer', true)
+
+  gameBoard.placeShip(shipCoordinates)
+  gameBoard.receiveAttack([0, 0])
+  // gameBoard.removeAdjacentSlot([1, 0])
+  const adjacentSlots = player.getAdjacentSlots(
+    true,
+    gameBoard.getAIAvailableMoves(),
+    gameBoard.getAdjacentSlotsQueue(),
+    gameBoard.getSuccessfulShots()
+  )
+  gameBoard.addAdjacentSlotsToQueue(adjacentSlots)
+  const testResult = gameBoard.removeAdjacentSlot([1, 0])
+
+  const adjacentQueue = gameBoard.getAdjacentSlotsQueue()
+
+  expect(adjacentQueue).not.toContainEqual([1, 0])
+})
+
 // !!!REMOVE THIS TEST, IT IS NOT NEEDED!!!
 test.skip('coordinates are on the board', () => {
   const gameBoard = Gameboard()

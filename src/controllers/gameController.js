@@ -228,7 +228,12 @@ const gameController = () => {
     const availableMoves = humanBoard.getAIAvailableMoves()
     const lastAIMoveSuccessful = humanBoard.getLastAIMoveSuccessful()
     if (lastAIMoveSuccessful) {
-      const adjacentSlots = currentPlayer.getAdjacentSlots()
+      const adjacentSlots = currentPlayer.getAdjacentSlots(
+        true,
+        availableMoves,
+        humanBoard.getAdjacentSlotsQueue(),
+        humanBoard.getSuccessfulShots()
+      )
       humanBoard.addAdjacentSlotsToQueue(adjacentSlots)
       const nextMove = humanBoard.getAdjacentQueueSlot()
       return nextMove

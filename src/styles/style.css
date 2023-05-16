@@ -49,6 +49,11 @@ button.shipCell {
     border-radius: 0;
 }
 
+.playerBoardContainer,
+.aiBoardContainer {
+    display: grid;
+}
+
 #boardsContainer {
     display: flex;
     justify-content: center;
@@ -57,7 +62,7 @@ button.shipCell {
     padding: 12px;
     display: grid;
     grid-template-rows: none;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     width: 91vw;
 }
 

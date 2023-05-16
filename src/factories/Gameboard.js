@@ -154,6 +154,19 @@ export const Gameboard = () => {
     } else if (typeof boardCell !== 'object') {
       lastAIMoveSuccessful = false
       missedShots.push(coordinates)
+      removeAdjacentSlot(coordinates)
+    }
+  }
+
+  // If the computer randomly guesses a spot that is in the adjacent
+  // slot queue, we need to remove it (from the adjacency queue) so the computer does not attempt to
+  // guess a spot that has already been guesed.
+  const removeAdjacentSlot = (coordinates) => {
+    for (let i = 0; i < adjacentSlotsQueue.length; i++) {
+      if (arraysAreEqual(adjacentSlotsQueue[i], coordinates)) {
+        adjacentSlotsQueue.splice(i, 1)
+        return
+      }
     }
   }
 
@@ -241,6 +254,7 @@ export const Gameboard = () => {
     getLastAIMoveSuccessful,
     getAdjacentSlotsQueue,
     addAdjacentSlotsToQueue,
-    getAdjacentQueueSlot
+    getAdjacentQueueSlot,
+    removeAdjacentSlot
   }
 }
