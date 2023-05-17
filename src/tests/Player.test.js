@@ -38,3 +38,62 @@ test('checks that make random move returns undefined when the AI is set to false
 
   expect(randomMove).toBeUndefined()
 })
+
+test('checks that we can retrieve last successful move in getAdjacentSlots function', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+
+  const shipCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2]
+  ]
+
+  const player = Player('Computer', true)
+
+  gameBoard.placeShip(shipCoordinates)
+  gameBoard.receiveAttack([0, 0])
+
+  const successfulShots = gameBoard.getSuccessfulShots()
+  const lastSuccessfulMove = successfulShots.at(-1)
+
+  expect(lastSuccessfulMove).toEqual([0, 0])
+})
+
+test('checks that we can retrieve the adjacent slots', () => {
+  const gameBoard = Gameboard()
+  gameBoard.createGameBoard()
+
+  const shipCoordinates = [
+    [0, 0],
+    [0, 1],
+    [0, 2]
+  ]
+
+  const player = Player('Computer', true)
+
+  gameBoard.placeShip(shipCoordinates)
+  gameBoard.receiveAttack([0, 1])
+  gameBoard.removeLastAIMove([0, 1])
+  gameBoard.receiveAttack([0, 0])
+  gameBoard.removeLastAIMove([0, 0])
+
+  const successfulShots = gameBoard.getSuccessfulShots()
+  const lastSuccessfulMove = successfulShots.at(-1)
+  const availableMoves = gameBoard.getAIAvailableMoves()
+
+  const adjacentSlots = player.getAdjacentSlots(
+    true,
+    availableMoves,
+    gameBoard.getSuccessfulShots(),
+    successfulShots,
+    gameBoard.getMissedShots()
+  )
+
+  /* const movesAvailable = player.preventPreviousShotToQueue(
+    availableMoves,
+    adjacentSlots
+  ) */
+
+  expect(adjacentSlots).toContainEqual([1, 0])
+})

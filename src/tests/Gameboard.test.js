@@ -311,8 +311,8 @@ test('checks legal adjacent slots are added to the queue ', () => {
     adjacentSlots = player.getAdjacentSlots(
       true,
       availableMoves,
-      gameBoard.getAdjacentSlotsQueue(),
-      gameBoard.getSuccessfulShots()
+      gameBoard.getSuccessfulShots(),
+      gameBoard.getMissedShots()
     )
   }
 
@@ -351,13 +351,16 @@ test('check if slot in adjacency queue is removed', () => {
 
   gameBoard.placeShip(shipCoordinates)
   gameBoard.receiveAttack([0, 0])
+  gameBoard.removeLastAIMove([0, 0])
   const adjacentSlots = player.getAdjacentSlots(
     true,
     gameBoard.getAIAvailableMoves(),
-    gameBoard.getAdjacentSlotsQueue(),
-    gameBoard.getSuccessfulShots()
+    // gameBoard.getAdjacentSlotsQueue(),
+    gameBoard.getSuccessfulShots(),
+    gameBoard.getMissedShots()
   )
   gameBoard.addAdjacentSlotsToQueue(adjacentSlots)
+  // gameBoard.receiveAttack([1, 0])
   gameBoard.removeAdjacentSlot([1, 0])
 
   const adjacentQueue = gameBoard.getAdjacentSlotsQueue()

@@ -1,3 +1,5 @@
+import { arraysAreEqual } from '../helpers/arraysAreEqual'
+
 export const Player = (name, isAI) => {
   // Used to make AI select random, legal coordinate
   // on players game board
@@ -16,8 +18,8 @@ export const Player = (name, isAI) => {
   const getAdjacentSlots = (
     isAI,
     availableMoves,
-    adjacentQueue,
-    successfulShots
+    successfulShots,
+    missedShots
   ) => {
     if (!isAI || availableMoves.length === 0) {
       return undefined
@@ -26,6 +28,12 @@ export const Player = (name, isAI) => {
     const lastSuccessfulMove = successfulShots.at(-1)
     const adjacentSlots = retrieveAdjacentSlots(lastSuccessfulMove)
     const legalAdjacentSlots = removeIllegalAdjacentSlots(adjacentSlots)
+    /* const availableAdjacentSlots = preventPreviousShotToQueue(
+      availableMoves,
+      legalAdjacentSlots,
+      successfulShots,
+      missedShots
+    ) */
     return legalAdjacentSlots
   }
 
@@ -93,6 +101,7 @@ export const Player = (name, isAI) => {
     return adjacentSlots
   }
 
+  // prevents adding adjacent slots that are not on the board
   const removeIllegalAdjacentSlots = (adjacentSlots) => {
     const adjacentSlotsArr = adjacentSlots
     adjacentSlotsArr.forEach((slot, index) => {
@@ -105,9 +114,36 @@ export const Player = (name, isAI) => {
 
   // if the computer has already (randomly) guessed a spot on the board, prevent
   // adding the spot to the adjacency list
-  const preventPreviousShotToQueue = (coordinate) => {
-    // in progress
+  const preventPreviousShotToQueue = (
+    availableMoves,
+    adjacentSlots,
+    successfulShots,
+    missedShots
+  ) => {
+    const slots = adjacentSlots
+    const allPreviousAttacks = successfulShots.concat(missedShots)
+
+    const previousAttacks = new Set()
+
+    for (const shot of allPreviousAttacks) {
+      previousAttacks.add(shot.toString())
+    }
+
+    // Go through each adjacency slot, and determine if the slot is in the
+    // previousAttacks method. We are filtering out the slots that are in
+    // the previous attack set, as we do not want to have the computer
+    // to use those slots again in future turns
+    const filteredSlots = slots.filter(
+      (slot) => !previousAttacks.has(slot.toString())
+    )
+
+    return filteredSlots
   }
 
-  return { makeRandomMove, getName, getAdjacentSlots, getCellAbove }
+  return {
+    makeRandomMove,
+    getName,
+    getAdjacentSlots,
+    preventPreviousShotToQueue
+  }
 }

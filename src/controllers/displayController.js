@@ -148,7 +148,7 @@ const placeSubmarine = () => {
         controller
       )
     },
-    { signal: controller.controller }
+    { signal: controller.signal }
   )
 }
 
@@ -404,6 +404,7 @@ const handleDestroyerShipPlacement = (
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
+  const topBarContainer = document.querySelector('.topBarContainer')
 
   const destroyerPlaced = placeDestroyerOnBoard(
     coordinate,
@@ -412,6 +413,7 @@ const handleDestroyerShipPlacement = (
 
   if (destroyerPlaced) {
     controller.abort()
+
     removePreviousOrientationBtn()
     displayController()
   } else {

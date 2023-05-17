@@ -232,7 +232,8 @@ const gameController = () => {
         true,
         availableMoves,
         humanBoard.getAdjacentSlotsQueue(),
-        humanBoard.getSuccessfulShots()
+        humanBoard.getSuccessfulShots(),
+        humanBoard.getMissedShots()
       )
       humanBoard.addAdjacentSlotsToQueue(adjacentSlots)
       const nextMove = humanBoard.getAdjacentQueueSlot()

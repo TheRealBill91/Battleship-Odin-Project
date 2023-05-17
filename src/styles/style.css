@@ -68,8 +68,8 @@ button.shipCell {
     padding: 12px;
     display: grid;
     grid-template-rows: none;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    width: 72vw;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 38vw));
+    width: 83vw;
 }
 
 .orientationToggleBtn {
@@ -89,14 +89,16 @@ button.shipCell {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 54px);
+    /* grid-template-rows: 1fr; */
+    height: 55vh;
 }
 
 #AIBoard {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 54px);
+    /* grid-template-rows: 1fr; */
+    height: 55vh;
 }
 
 /* button.boardCell {

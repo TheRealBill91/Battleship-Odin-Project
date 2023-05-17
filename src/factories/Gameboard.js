@@ -8,7 +8,7 @@ export const Gameboard = () => {
   const missedShots = []
   const aiAvailableMoves = []
   const successfulShots = []
-  const adjacentSlotsQueue = []
+  let adjacentSlotsQueue = []
   const rows = 9
   const columns = 9
   let lastAIMoveSuccessful = false
@@ -158,16 +158,23 @@ export const Gameboard = () => {
     }
   }
 
-  // If the computer randomly guesses a spot that is in the adjacent
-  // slot queue, we need to remove it (from the adjacency queue) so the computer does not attempt to
-  // guess a spot that has already been guesed.
+  // If the computer randomly guesses a spot that is already in the adjacency
+  // slot queue, we need to remove it (from the adjacency queue) so
+  // the computer does not attempt to
+  // use the already guessed spot when pulling from the adjacency
+  // queue for it's next move
   const removeAdjacentSlot = (coordinates) => {
-    for (let i = 0; i < adjacentSlotsQueue.length; i++) {
-      if (arraysAreEqual(adjacentSlotsQueue[i], coordinates)) {
-        adjacentSlotsQueue.splice(i, 1)
-        return
-      }
+    const targetCoordinates = coordinates
+    const adjacentQueue = new Set()
+    for (const slot of adjacentSlotsQueue) {
+      adjacentQueue.add(slot.toString())
     }
+
+    // filter the adjacency slot queue down to slots that have NOT
+    // already been guesed.
+    adjacentSlotsQueue = adjacentSlotsQueue.filter(
+      (slot) => !arraysAreEqual(slot, targetCoordinates)
+    )
   }
 
   const allShipsSunk = () => {
