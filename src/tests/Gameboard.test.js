@@ -252,9 +252,11 @@ test('Should prevent a ship from being placed on top of another ship', () => {
 test('Gameboard is cleared', () => {
   const gameBoard = Gameboard()
   gameBoard.createGameBoard()
+  const player = Player('Computer', true)
   const board = gameBoard.getBoard()
+
   const coordinates = [
-    [1, 0],
+    [0, 0],
     [0, 3],
     [0, 3]
   ]
@@ -264,7 +266,12 @@ test('Gameboard is cleared', () => {
   // simulate ship miss
   gameBoard.receiveAttack([1, 2])
   // simulate ship hit
-  gameBoard.receiveAttack([1, 0])
+  gameBoard.receiveAttack([0, 0])
+
+  gameBoard.addAdjacentSlotsToQueue([
+    [1, 0],
+    [0, 1]
+  ])
 
   gameBoard.clearGameBoard()
 
@@ -330,7 +337,7 @@ test('checks legal adjacent slots are added to the queue ', () => {
   expect(arraysAreEqualValue).toBeTruthy()
 })
 
-test.only('check if slot in adjacency queue is removed', () => {
+test('check if slot in adjacency queue is removed', () => {
   const gameBoard = Gameboard()
   gameBoard.createGameBoard()
 
@@ -344,7 +351,6 @@ test.only('check if slot in adjacency queue is removed', () => {
 
   gameBoard.placeShip(shipCoordinates)
   gameBoard.receiveAttack([0, 0])
-  // gameBoard.removeAdjacentSlot([1, 0])
   const adjacentSlots = player.getAdjacentSlots(
     true,
     gameBoard.getAIAvailableMoves(),
@@ -352,7 +358,7 @@ test.only('check if slot in adjacency queue is removed', () => {
     gameBoard.getSuccessfulShots()
   )
   gameBoard.addAdjacentSlotsToQueue(adjacentSlots)
-  const testResult = gameBoard.removeAdjacentSlot([1, 0])
+  gameBoard.removeAdjacentSlot([1, 0])
 
   const adjacentQueue = gameBoard.getAdjacentSlotsQueue()
 

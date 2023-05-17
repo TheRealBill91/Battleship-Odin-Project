@@ -27,32 +27,26 @@ const placeCarrierShip = () => {
 
   const humanBoardDiv = document.querySelector('#playerBoard')
 
-  const topBarDiv = document.querySelector('.topBarContainer')
-  let horizontalShipOrientationStatus = true
-  const orientationToggleBtn = document.createElement('button')
-  orientationToggleBtn.classList.add('orientationToggleBtn')
-  orientationToggleBtn.textContent = 'Horizontal'
-  topBarDiv.appendChild(orientationToggleBtn)
-  orientationToggleBtn.addEventListener(
-    'click',
-    () => {
-      if (horizontalShipOrientationStatus === true) {
-        horizontalShipOrientationStatus = false
-        orientationToggleBtn.textContent = 'Vertical'
-      } else {
-        horizontalShipOrientationStatus = true
-        orientationToggleBtn.textContent = 'Horizontal'
-      }
-    },
-    { once: true }
-  )
+  const orientationBtnValues = createOrientationToggleBtn()
+  let horizontalShipOrientationStatus = orientationBtnValues[0]
+  const orientationToggleBtn = orientationBtnValues[1]
+  orientationToggleBtn.addEventListener('click', () => {
+    if (horizontalShipOrientationStatus === true) {
+      horizontalShipOrientationStatus = false
+      orientationToggleBtn.textContent = 'Vertical'
+    } else {
+      horizontalShipOrientationStatus = true
+      orientationToggleBtn.textContent = 'Horizontal'
+    }
+  })
 
+  const controller = new AbortController()
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
-      handleCarrierShipPlacement(e, horizontalShipOrientationStatus)
+      handleCarrierShipPlacement(e, horizontalShipOrientationStatus, controller)
     },
-    { once: true }
+    { signal: controller.signal }
   )
 }
 
@@ -61,23 +55,21 @@ const placeBattleShip = () => {
   topBarPara.textContent = 'Place your battleship'
 
   const humanBoardDiv = document.querySelector('#playerBoard')
-  let horizontalShipOrientationStatus = true
-  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
-  orientationToggleBtn.textContent = 'Horizontal'
-  orientationToggleBtn.addEventListener(
-    'click',
-    () => {
-      if (horizontalShipOrientationStatus === true) {
-        horizontalShipOrientationStatus = false
-        orientationToggleBtn.textContent = 'Vertical'
-      } else {
-        horizontalShipOrientationStatus = true
-        orientationToggleBtn.textContent = 'Horizontal'
-      }
-    },
-    { once: true }
-  )
 
+  const orientationBtnValues = createOrientationToggleBtn()
+  let horizontalShipOrientationStatus = orientationBtnValues[0]
+  const orientationToggleBtn = orientationBtnValues[1]
+  orientationToggleBtn.addEventListener('click', () => {
+    if (horizontalShipOrientationStatus === true) {
+      horizontalShipOrientationStatus = false
+      orientationToggleBtn.textContent = 'Vertical'
+    } else {
+      horizontalShipOrientationStatus = true
+      orientationToggleBtn.textContent = 'Horizontal'
+    }
+  })
+
+  const controller = new AbortController()
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
@@ -85,9 +77,9 @@ const placeBattleShip = () => {
         'Orientation status going into placement:' +
           horizontalShipOrientationStatus
       )
-      handleBattleShipPlacement(e, horizontalShipOrientationStatus)
+      handleBattleShipPlacement(e, horizontalShipOrientationStatus, controller)
     },
-    { once: true }
+    { signal: controller.signal }
   )
 }
 
@@ -97,23 +89,20 @@ const placeCruiser = () => {
 
   const humanBoardDiv = document.querySelector('#playerBoard')
 
-  let horizontalShipOrientationStatus = true
-  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
-  orientationToggleBtn.textContent = 'Horizontal'
-  orientationToggleBtn.addEventListener(
-    'click',
-    () => {
-      if (horizontalShipOrientationStatus === true) {
-        horizontalShipOrientationStatus = false
-        orientationToggleBtn.textContent = 'Vertical'
-      } else {
-        horizontalShipOrientationStatus = true
-        orientationToggleBtn.textContent = 'Horizontal'
-      }
-    },
-    { once: true }
-  )
+  const orientationBtnValues = createOrientationToggleBtn()
+  let horizontalShipOrientationStatus = orientationBtnValues[0]
+  const orientationToggleBtn = orientationBtnValues[1]
+  orientationToggleBtn.addEventListener('click', () => {
+    if (horizontalShipOrientationStatus === true) {
+      horizontalShipOrientationStatus = false
+      orientationToggleBtn.textContent = 'Vertical'
+    } else {
+      horizontalShipOrientationStatus = true
+      orientationToggleBtn.textContent = 'Horizontal'
+    }
+  })
 
+  const controller = new AbortController()
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
@@ -121,9 +110,9 @@ const placeCruiser = () => {
         'Orientation status going into placement:' +
           horizontalShipOrientationStatus
       )
-      handleCruiserShipPlacement(e, horizontalShipOrientationStatus)
+      handleCruiserShipPlacement(e, horizontalShipOrientationStatus, controller)
     },
-    { once: true }
+    { signal: controller.signal }
   )
 }
 
@@ -133,23 +122,19 @@ const placeSubmarine = () => {
 
   const humanBoardDiv = document.querySelector('#playerBoard')
 
-  let horizontalShipOrientationStatus = true
-  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
-  orientationToggleBtn.textContent = 'Horizontal'
-  orientationToggleBtn.addEventListener(
-    'click',
-    () => {
-      if (horizontalShipOrientationStatus === true) {
-        horizontalShipOrientationStatus = false
-        orientationToggleBtn.textContent = 'Vertical'
-      } else {
-        horizontalShipOrientationStatus = true
-        orientationToggleBtn.textContent = 'Horizontal'
-      }
-    },
-    { once: true }
-  )
-
+  const orientationBtnValues = createOrientationToggleBtn()
+  let horizontalShipOrientationStatus = orientationBtnValues[0]
+  const orientationToggleBtn = orientationBtnValues[1]
+  orientationToggleBtn.addEventListener('click', () => {
+    if (horizontalShipOrientationStatus === true) {
+      horizontalShipOrientationStatus = false
+      orientationToggleBtn.textContent = 'Vertical'
+    } else {
+      horizontalShipOrientationStatus = true
+      orientationToggleBtn.textContent = 'Horizontal'
+    }
+  })
+  const controller = new AbortController()
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
@@ -157,9 +142,13 @@ const placeSubmarine = () => {
         'Orientation status going into placement:' +
           horizontalShipOrientationStatus
       )
-      handleSubmarineShipPlacement(e, horizontalShipOrientationStatus)
+      handleSubmarineShipPlacement(
+        e,
+        horizontalShipOrientationStatus,
+        controller
+      )
     },
-    { once: true }
+    { signal: controller.controller }
   )
 }
 
@@ -169,23 +158,20 @@ const placeDestroyer = () => {
 
   const humanBoardDiv = document.querySelector('#playerBoard')
 
-  let horizontalShipOrientationStatus = true
-  const orientationToggleBtn = document.querySelector('.orientationToggleBtn')
-  orientationToggleBtn.textContent = 'Horizontal'
-  orientationToggleBtn.addEventListener(
-    'click',
-    () => {
-      if (horizontalShipOrientationStatus === true) {
-        horizontalShipOrientationStatus = false
-        orientationToggleBtn.textContent = 'Vertical'
-      } else {
-        horizontalShipOrientationStatus = true
-        orientationToggleBtn.textContent = 'Horizontal'
-      }
-    },
-    { once: true }
-  )
+  const orientationBtnValues = createOrientationToggleBtn()
+  let horizontalShipOrientationStatus = orientationBtnValues[0]
+  const orientationToggleBtn = orientationBtnValues[1]
+  orientationToggleBtn.addEventListener('click', () => {
+    if (horizontalShipOrientationStatus === true) {
+      horizontalShipOrientationStatus = false
+      orientationToggleBtn.textContent = 'Vertical'
+    } else {
+      horizontalShipOrientationStatus = true
+      orientationToggleBtn.textContent = 'Horizontal'
+    }
+  })
 
+  const controller = new AbortController()
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
@@ -193,9 +179,13 @@ const placeDestroyer = () => {
         'Orientation status going into placement:' +
           horizontalShipOrientationStatus
       )
-      handleDestroyerShipPlacement(e, horizontalShipOrientationStatus)
+      handleDestroyerShipPlacement(
+        e,
+        horizontalShipOrientationStatus,
+        controller
+      )
     },
-    { once: true }
+    { signal: controller.signal }
   )
 }
 
@@ -314,7 +304,11 @@ const updateAIBoard = () => {
   })
 }
 
-const handleCarrierShipPlacement = (e, horizontalShipOrientation) => {
+const handleCarrierShipPlacement = (
+  e,
+  horizontalShipOrientation,
+  controller
+) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
@@ -325,13 +319,19 @@ const handleCarrierShipPlacement = (e, horizontalShipOrientation) => {
   )
 
   if (carrierPlaced) {
+    controller.abort()
+    removePreviousOrientationBtn()
     placeBattleShip()
   } else {
     return placeCarrierShip
   }
 }
 
-const handleBattleShipPlacement = (e, horizontalShipOrientation) => {
+const handleBattleShipPlacement = (
+  e,
+  horizontalShipOrientation,
+  controller
+) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
@@ -342,13 +342,19 @@ const handleBattleShipPlacement = (e, horizontalShipOrientation) => {
   )
 
   if (battleshipPlaced) {
+    controller.abort()
+    removePreviousOrientationBtn()
     placeCruiser()
   } else {
     return placeBattleShip
   }
 }
 
-const handleCruiserShipPlacement = (e, horizontalShipOrientation) => {
+const handleCruiserShipPlacement = (
+  e,
+  horizontalShipOrientation,
+  controller
+) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
@@ -359,13 +365,19 @@ const handleCruiserShipPlacement = (e, horizontalShipOrientation) => {
   )
 
   if (cruiserPlaced) {
+    controller.abort()
+    removePreviousOrientationBtn()
     placeSubmarine()
   } else {
     return placeCruiser
   }
 }
 
-const handleSubmarineShipPlacement = (e, horizontalShipOrientation) => {
+const handleSubmarineShipPlacement = (
+  e,
+  horizontalShipOrientation,
+  controller
+) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
@@ -376,13 +388,19 @@ const handleSubmarineShipPlacement = (e, horizontalShipOrientation) => {
   )
 
   if (submarinePlaced) {
+    controller.abort()
+    removePreviousOrientationBtn()
     placeDestroyer()
   } else {
     return placeSubmarine
   }
 }
 
-const handleDestroyerShipPlacement = (e, horizontalShipOrientation) => {
+const handleDestroyerShipPlacement = (
+  e,
+  horizontalShipOrientation,
+  controller
+) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const coordinate = [selectedRow, selectedColumn]
@@ -393,6 +411,8 @@ const handleDestroyerShipPlacement = (e, horizontalShipOrientation) => {
   )
 
   if (destroyerPlaced) {
+    controller.abort()
+    removePreviousOrientationBtn()
     displayController()
   } else {
     return placeDestroyer
@@ -624,6 +644,26 @@ const startNewGame = () => {
   topBarDiv.removeChild(playAgainBtn)
   document.querySelector('.topBarContainer > p').textContent = ''
   displayController()
+}
+
+// For each of the place ship functions, we need to remove the previous
+// orientation toggle button to prevent the same listener firing for each of the
+// previous orientation toggle buttons
+const removePreviousOrientationBtn = () => {
+  const topBarDiv = document.querySelector('.topBarContainer')
+  const previousOrientationBtn = document.querySelector('.orientationToggleBtn')
+  topBarDiv.removeChild(previousOrientationBtn)
+}
+
+const createOrientationToggleBtn = () => {
+  const topBarDiv = document.querySelector('.topBarContainer')
+  const horizontalShipOrientationStatus = true
+  const orientationToggleBtn = document.createElement('button')
+  orientationToggleBtn.classList.add('orientationToggleBtn')
+  orientationToggleBtn.textContent = 'Horizontal'
+  topBarDiv.appendChild(orientationToggleBtn)
+
+  return [horizontalShipOrientationStatus, orientationToggleBtn]
 }
 
 // const handlePlayerSeletion
