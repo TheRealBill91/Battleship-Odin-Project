@@ -12,6 +12,7 @@ export const Gameboard = () => {
   const rows = 9
   const columns = 9
   let lastAIMoveSuccessful = false
+  let lastHumanMoveSuccessful = false
 
   const createGameBoard = () => {
     board = []
@@ -150,9 +151,11 @@ export const Gameboard = () => {
     if (typeof boardCell === 'object') {
       shipObj.hit()
       lastAIMoveSuccessful = true
+      lastHumanMoveSuccessful = true
       successfulShots.push(coordinates)
     } else if (typeof boardCell !== 'object') {
       lastAIMoveSuccessful = false
+      lastHumanMoveSuccessful = false
       missedShots.push(coordinates)
       removeAdjacentSlot(coordinates)
     }
@@ -234,12 +237,20 @@ export const Gameboard = () => {
     return lastAIMoveSuccessful
   }
 
+  const getLastHumanMoveSuccessful = () => {
+    return lastHumanMoveSuccessful
+  }
+
   const getAdjacentSlotsQueue = () => {
     return adjacentSlotsQueue
   }
 
   const getAdjacentQueueSlot = () => {
     return adjacentSlotsQueue.pop()
+  }
+
+  const getLastSuccessfulMove = () => {
+    return successfulShots.at(-1)
   }
 
   return {
@@ -259,9 +270,11 @@ export const Gameboard = () => {
     removeLastAIMove,
     checkOverlapWithOtherShips,
     getLastAIMoveSuccessful,
+    getLastHumanMoveSuccessful,
     getAdjacentSlotsQueue,
     addAdjacentSlotsToQueue,
     getAdjacentQueueSlot,
-    removeAdjacentSlot
+    removeAdjacentSlot,
+    getLastSuccessfulMove
   }
 }
