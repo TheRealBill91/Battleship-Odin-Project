@@ -12,7 +12,7 @@ const displayController = async () => {
   // this is where the ship placement will happen for human player
   const topBarContainerPara = document.querySelector('.topBarContainer > p')
   topBarContainerPara.textContent = 'Enenmy is placing their ships...'
-  await delay(2000)
+  await delay(1500)
   game.placeAIShips()
   renderAIBoard()
   topBarContainerPara.textContent = ''
@@ -21,8 +21,10 @@ const displayController = async () => {
   const activePlayer = game.getCurrentPlayer()
 
   if (activePlayer === players.human) {
-    document.querySelector('.topBarContainer > p').textContent =
-      'Attack the enemies ships!'
+    const newMessage = 'Attack the enemies ships!'
+    const topBarContainerPara = document.querySelector('.topBarContainer > p')
+    transitionTextChanges(newMessage, topBarContainerPara)
+
     aiBoardDiv.addEventListener('click', handlePlayerSelectionEvt)
   }
 }
@@ -213,21 +215,21 @@ const renderPlayerBoard = () => {
   }
 }
 
-const renderAIBoard = () => {
+const renderAIBoard = async () => {
   const aiBoard = game.getAIBoard()
   const aiBoardDiv = document.getElementById('AIBoard')
   aiBoardDiv.innerHTML = ''
 
   for (let i = 0; i < aiBoard.length; i++) {
     const currentRow = aiBoard[i]
+
     for (let j = 0; j < currentRow.length; j++) {
       const button = document.createElement('button')
       button.classList.add('boardCell')
       button.dataset.row = i
       button.dataset.column = j
       const row = aiBoard[i]
-      // for testing, this shows AI board at start
-      // which we do not want
+
       if (typeof row[j] === 'object') {
         button.classList.add('shipCell')
       }
@@ -590,7 +592,7 @@ const findShipDOMBtn = (boardDOMCellsArr, domCoordinate) => {
   }
 }
 
-const handlePlayerSelectionEvt = (e) => {
+const handlePlayerSelectionEvt = async (e) => {
   const selectedRow = e.target.dataset.row
   const selectedColumn = e.target.dataset.column
   const aiBoardDiv = document.getElementById('AIBoard')
@@ -606,44 +608,41 @@ const handlePlayerSelectionEvt = (e) => {
     return
   }
 
-  document.querySelector('.topBarContainer > p').textContent =
-    'Attack the enemies ships...'
   game.playRound(coordinate)
   const humanMoveSuccessful = game.getAIBoardObj.getLastHumanMoveSuccessful()
   humanMoveSuccessful
     ? displaySuccessfulAttackMessage('human')
     : displayUnsuccessfulAttackMessage('human')
+
   const humanWins = game.checkForWin()
 
   updateAIBoard()
+  await delay(4000)
   // create handleWin() function
-  if (humanWins) {
-    aiBoardDiv.removeEventListener('click', handlePlayerSelectionEvt)
-    game.resetGameState()
-    announceWinner(humanWins)
-    playAgain()
-  }
+  handleWinCheck(humanWins, aiBoardDiv)
   handleAIMove(aiBoardDiv)
 }
 
 const handleAIMove = async (aiBoardDiv) => {
-  await delay(1000)
-  document.querySelector('.topBarContainer > p').textContent =
-    'Enemy is attacking your ships!'
+  const topBarContainerPara = document.querySelector('.topBarContainer > p')
+  const enemyAttackingMsg = 'Enemy is attacking your ships!'
+  transitionTextChanges(enemyAttackingMsg, topBarContainerPara)
+  await delay(3000)
+  game.playRound()
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
   aiMoveSuccessful
     ? displaySuccessfulAttackMessage('computer')
     : displayUnsuccessfulAttackMessage('computer')
-  game.playRound()
+
   const aiWins = game.checkForWin()
 
   updateHumanBoard()
-  if (aiWins) {
-    aiBoardDiv.removeEventListener('click', handlePlayerSelectionEvt)
-    game.resetGameState()
-    announceWinner(aiWins)
-    playAgain()
-  }
+  await delay(2500)
+  const attackTheEnemyMsg = 'Attack the enemies ships...'
+  transitionTextChanges(attackTheEnemyMsg, topBarContainerPara)
+
+  await delay(4000)
+  handleWinCheck(aiWins, aiBoardDiv)
 }
 
 const announceWinner = (winner) => {
@@ -691,23 +690,48 @@ const createOrientationToggleBtn = () => {
 const displaySuccessfulAttackMessage = (player) => {
   if (player === 'human') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
-    topBarContainerPara.textContent =
-      'You attacked the enemy... and hit their ship!'
+    const attackAndHitMsg = 'You attacked the enemy... and hit their ship!'
+    setTimeout(transitionTextChanges(attackAndHitMsg, topBarContainerPara), 10)
   } else if (player === 'computer') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
-    topBarContainerPara.textContent =
-      'The enemy launched an attack... and hit your ship!'
+    const enemyHitMsg = 'The enemy launched an attack... and hit your ship!'
+    setTimeout(transitionTextChanges(enemyHitMsg, topBarContainerPara), 10)
   }
 }
 
 const displayUnsuccessfulAttackMessage = (player) => {
   if (player === 'human') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
-    topBarContainerPara.textContent = 'You attack on the enemy was unsuccessful'
+    const unsuccessfulAttackMsg = 'You attack on the enemy was unsuccessful'
+    setTimeout(
+      transitionTextChanges(unsuccessfulAttackMsg, topBarContainerPara),
+      10
+    )
   } else if (player === 'computer') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
-    topBarContainerPara.textContent = 'The enemies attack was unsuccessful'
+    const unsuccessfulEnemyAttackMsg = 'The enemies attack was unsuccessful'
+    setTimeout(
+      transitionTextChanges(unsuccessfulEnemyAttackMsg, topBarContainerPara),
+      10
+    )
   }
+}
+
+const handleWinCheck = (winCheck, boardDiv) => {
+  if (winCheck) {
+    boardDiv.removeEventListener('click', handlePlayerSelectionEvt)
+    game.resetGameState()
+    announceWinner(winCheck)
+    playAgain()
+  }
+}
+
+const transitionTextChanges = async (newMessage, domElement) => {
+  domElement.classList.add('invisible')
+  await delay(400)
+  domElement.textContent = newMessage
+  await delay(400)
+  domElement.classList.remove('invisible')
 }
 
 // const handlePlayerSeletion

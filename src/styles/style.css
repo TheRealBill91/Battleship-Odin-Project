@@ -20,6 +20,7 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
+    justify-content: center;
 }
 
 main {
@@ -29,10 +30,11 @@ main {
     flex: 1;
     flex-direction: column;
     gap: 12px;
+    background-color: radial #333;
 }
 
 .topBarContainer {
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     width: 75vw;
     height: 80px;
     margin-top: 24px;
@@ -44,10 +46,19 @@ main {
 
 .topBarContainer p {
     align-items: center;
+    transition: opacity 0.5s ease-in-out;
+    font-size: 1.4rem;
+    opacity: 1;
+}
+
+p.invisible {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
 }
 
 button.shipCell {
     background-color: grey;
+    transition: background-color 0.2s ease-in-out;
 }
 
 #AIBoard button,
@@ -64,11 +75,11 @@ button.shipCell {
     display: flex;
     justify-content: center;
     gap: 12px;
-    outline: 1px solid black;
+    /* outline: 1px solid black */
     padding: 12px;
     display: grid;
     grid-template-rows: none;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 38vw));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 38vw));
     width: 83vw;
     margin-bottom: 14px;
 }
@@ -90,16 +101,14 @@ button.shipCell {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    /* grid-template-rows: 1fr; */
-    height: 65vh;
+    grid-template-rows: repeat(10, 50px);
 }
 
 #AIBoard {
     outline: 1px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    /* grid-template-rows: 1fr; */
-    height: 65vh;
+    grid-template-rows: repeat(10, 50px);
 }
 
 /* button.boardCell {
@@ -114,4 +123,60 @@ button.shipCell {
 
 button.shipHit {
     background-color: rgb(22, 94, 22);
+    transition: background-color 0.3s ease-in;
+}
+
+@media only screen and (max-device-width: 812px) {
+    #boardsContainer {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        /*  outline: 1px solid black; */
+        padding: 12px;
+        display: grid;
+        grid-template-rows: none;
+        grid-template-columns: repeat(auto-fit, minmax(325px, 38vw));
+        width: 86vw;
+        margin-bottom: 14px;
+        margin-bottom: 24px;
+    }
+
+    #AIBoard {
+        outline: 1px solid black;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(10, 42px);
+    }
+
+    #playerBoard {
+        outline: 1px solid black;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(10, 42px);
+    }
+
+    .topBarContainer {
+        /* outline: 1px solid black; */
+        width: 84vw;
+        height: 80px;
+        margin-top: 24px;
+        display: flex;
+        gap: 6%;
+        justify-content: center;
+        align-items: center;
+        background-color: lightgrey;
+        border-radius: 12px 12px;
+        box-shadow: 0px 2px 1px #7a7a7a42;
+        padding: 6px;
+    }
+
+    .topBarContainer p {
+        /* outline: 1px solid black; */
+        font-size: 1.2rem;
+    }
+
+    #boardsContainer p {
+        justify-self: center;
+        font-size: 1.1rem;
+    }
 }
