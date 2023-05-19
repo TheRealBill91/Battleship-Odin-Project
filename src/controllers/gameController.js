@@ -231,7 +231,6 @@ const gameController = () => {
       const adjacentSlots = currentPlayer.getAdjacentSlots(
         true,
         availableMoves,
-        humanBoard.getAdjacentSlotsQueue(),
         humanBoard.getSuccessfulShots(),
         humanBoard.getMissedShots()
       )

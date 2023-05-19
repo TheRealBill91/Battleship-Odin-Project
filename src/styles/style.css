@@ -1,182 +1,187 @@
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100vw;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 header {
-    background-color: darkblue;
-    color: rgb(236, 236, 236);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 80px;
+  background-color: darkblue;
+  color: rgb(236, 236, 236);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 80px;
 }
 
 .headerContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 }
 
 main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: column;
-    gap: 12px;
-    background-color: radial #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  background-color: radial #333;
 }
 
 .topBarContainer {
-    /* outline: 1px solid black; */
-    width: 75vw;
-    height: 80px;
-    margin-top: 24px;
-    display: flex;
-    gap: 10%;
-    justify-content: center;
-    align-items: center;
+  /* outline: 1px solid black; */
+  width: 70vw;
+  height: 80px;
+  margin-top: 8%;
+  display: flex;
+  gap: 10%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px 12px;
+  background-color: lightgray;
+  box-shadow: 0px 2px 1px #7a7a7a42;
 }
 
 .topBarContainer p {
-    align-items: center;
-    transition: opacity 0.5s ease-in-out;
-    font-size: 1.4rem;
-    opacity: 1;
+  align-items: center;
+  transition: opacity 0.5s ease-in-out;
+  font-size: 1.4rem;
+  opacity: 1;
 }
 
 p.invisible {
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
 }
 
 button.shipCell {
-    background-color: grey;
-    transition: background-color 0.2s ease-in-out;
+  background-color: grey;
+  transition: background-color 0.2s ease-in-out;
 }
 
 #AIBoard button,
 #playerBoard button {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .playerBoardContainer,
 .aiBoardContainer {
-    display: grid;
+  display: grid;
 }
 
 #boardsContainer {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    /* outline: 1px solid black */
-    padding: 12px;
-    display: grid;
-    grid-template-rows: none;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 38vw));
-    width: 83vw;
-    margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  /* outline: 1px solid black */
+  padding: 12px;
+  display: grid;
+  grid-template-rows: none;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 38vw));
+  width: 83vw;
+  margin-bottom: 14px;
 }
 
 .orientationToggleBtn {
-    background-color: #333;
-    color: white;
-    border-radius: 8px;
-    height: 70%;
-    width: 100px;
-    font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  height: 70%;
+  width: 100px;
+  font-size: 1rem;
 }
 
 #boardsContainer p {
-    justify-self: center;
+  justify-self: center;
+  font-size: 1.1rem;
 }
 
+
 #playerBoard {
-    outline: 1px solid black;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 50px);
+  outline: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 50px);
 }
 
 #AIBoard {
-    outline: 1px solid black;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 50px);
+  outline: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 50px);
 }
 
-/* button.boardCell {
-    border: 1px solid black;
+button.boardCell {
     border-radius: 0px;
-} */
+    background-color: lightgray;
+}
 
 button.shipCell {
-    background-color: grey;
-    border: 1px solid black;
+  background-color: #333;
+  border: 1px solid black;
 }
 
 button.shipHit {
-    background-color: rgb(22, 94, 22);
-    transition: background-color 0.3s ease-in;
+  background-color: rgb(22, 94, 22);
+  transition: background-color 0.3s ease-in;
 }
 
 @media only screen and (max-device-width: 812px) {
-    #boardsContainer {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        /*  outline: 1px solid black; */
-        padding: 12px;
-        display: grid;
-        grid-template-rows: none;
-        grid-template-columns: repeat(auto-fit, minmax(325px, 38vw));
-        width: 86vw;
-        margin-bottom: 14px;
-        margin-bottom: 24px;
-    }
+  #boardsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    /*  outline: 1px solid black; */
+    padding: 12px;
+    display: grid;
+    grid-template-rows: none;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 38vw));
+    width: 86vw;
+    margin-bottom: 14px;
+    margin-bottom: 24px;
+  }
 
-    #AIBoard {
-        outline: 1px solid black;
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        grid-template-rows: repeat(10, 42px);
-    }
+  #AIBoard {
+    outline: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 42px);
+  }
 
-    #playerBoard {
-        outline: 1px solid black;
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        grid-template-rows: repeat(10, 42px);
-    }
+  #playerBoard {
+    outline: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 42px);
+  }
 
-    .topBarContainer {
-        /* outline: 1px solid black; */
-        width: 84vw;
-        height: 80px;
-        margin-top: 24px;
-        display: flex;
-        gap: 6%;
-        justify-content: center;
-        align-items: center;
-        background-color: lightgrey;
-        border-radius: 12px 12px;
-        box-shadow: 0px 2px 1px #7a7a7a42;
-        padding: 6px;
-    }
+  .topBarContainer {
+    /* outline: 1px solid black; */
+    width: 84vw;
+    height: 80px;
+    margin-top: 24px;
+    display: flex;
+    gap: 6%;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgrey;
+    border-radius: 12px 12px;
+    box-shadow: 0px 2px 1px #7a7a7a42;
+    padding: 6px;
+  }
 
-    .topBarContainer p {
-        /* outline: 1px solid black; */
-        font-size: 1.2rem;
-    }
+  .topBarContainer p {
+    /* outline: 1px solid black; */
+    font-size: 1.2rem;
+  }
 
-    #boardsContainer p {
-        justify-self: center;
-        font-size: 1.1rem;
-    }
+  #boardsContainer p {
+    justify-self: center;
+    font-size: 1.1rem;
+  }
 }

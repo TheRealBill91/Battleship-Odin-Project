@@ -404,7 +404,7 @@ const handleSubmarineShipPlacement = (
   }
 }
 
-const handleDestroyerShipPlacement = (
+const handleDestroyerShipPlacement = async (
   e,
   horizontalShipOrientation,
   controller
@@ -423,7 +423,7 @@ const handleDestroyerShipPlacement = (
     controller.abort()
     topBarContainerPara.textContent = ''
     removePreviousOrientationBtn()
-    displayController()
+    await displayController()
   } else {
     return placeDestroyer
   }
@@ -691,28 +691,32 @@ const displaySuccessfulAttackMessage = (player) => {
   if (player === 'human') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     const attackAndHitMsg = 'You attacked the enemy... and hit their ship!'
-    setTimeout(transitionTextChanges(attackAndHitMsg, topBarContainerPara), 10)
+    setTimeout(transitionTextChanges, 10, attackAndHitMsg, topBarContainerPara)
   } else if (player === 'computer') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     const enemyHitMsg = 'The enemy launched an attack... and hit your ship!'
-    setTimeout(transitionTextChanges(enemyHitMsg, topBarContainerPara), 10)
+    setTimeout(transitionTextChanges, 10, enemyHitMsg, topBarContainerPara)
   }
 }
 
 const displayUnsuccessfulAttackMessage = (player) => {
   if (player === 'human') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
-    const unsuccessfulAttackMsg = 'You attack on the enemy was unsuccessful'
+    const unsuccessfulAttackMsg = 'Your attack on the enemy was unsuccessful'
     setTimeout(
-      transitionTextChanges(unsuccessfulAttackMsg, topBarContainerPara),
-      10
+      transitionTextChanges,
+      10,
+      unsuccessfulAttackMsg,
+      topBarContainerPara
     )
   } else if (player === 'computer') {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     const unsuccessfulEnemyAttackMsg = 'The enemies attack was unsuccessful'
     setTimeout(
-      transitionTextChanges(unsuccessfulEnemyAttackMsg, topBarContainerPara),
-      10
+      transitionTextChanges,
+      10,
+      unsuccessfulEnemyAttackMsg,
+      topBarContainerPara
     )
   }
 }

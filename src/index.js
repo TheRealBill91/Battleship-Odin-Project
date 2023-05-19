@@ -1,5 +1,4 @@
 import {
-  displayController,
   preGameSetup
 } from './controllers/displayController'
 
