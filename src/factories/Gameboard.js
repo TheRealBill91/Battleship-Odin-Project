@@ -138,6 +138,7 @@ export const Gameboard = () => {
   const receiveAttack = (coordinates) => {
     const row = coordinates[0]
     const column = coordinates[1]
+    // coordinates = [row, column]
     const boardCell = board[row][column]
     const shipObj = boardCell
 

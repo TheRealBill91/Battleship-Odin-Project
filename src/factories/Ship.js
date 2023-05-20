@@ -11,8 +11,6 @@ export const Ship = (length, numOfHits, isSunk) => {
 
   // Determine if the ship object has been sunk
   const hasBeenSunk = () => {
-    let isSunk = false
-
     if (length === numOfHits) {
       isSunk = true
       return isSunk

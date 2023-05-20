@@ -117,13 +117,17 @@ button.shipCell {
 }
 
 button.boardCell {
-    border-radius: 0px;
-    background-color: lightgray;
+  border-radius: 0px;
+  background-color: lightgray;
 }
 
 button.shipCell {
   background-color: #333;
   border: 1px solid black;
+}
+
+button.sunkShip {
+  background-color: rgb(114, 21, 21);
 }
 
 button.shipHit {

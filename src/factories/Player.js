@@ -40,49 +40,47 @@ export const Player = (name, isAI) => {
   const getCellAbove = (lastSuccessfulMove) => {
     // the row needs to change by one
     const newArr = []
-    const newRow = lastSuccessfulMove[0] - 1
+    const newRow = +lastSuccessfulMove[0] - 1
     if (newRow > 9 || newRow < 0) {
       return 'illegal'
     }
     newArr[0] = newRow
-    newArr[1] = lastSuccessfulMove[1]
+    newArr[1] = +lastSuccessfulMove[1]
     return newArr
   }
 
   const getCellBelow = (lastSuccessfulMove) => {
     // the row needs to change by one
-    const arr = lastSuccessfulMove
     const newArr = []
-    const newRow = arr[0] + 1
+    const newRow = +lastSuccessfulMove[0] + 1
     if (newRow > 9 || newRow < 0) {
       return 'illegal'
     }
     newArr[0] = newRow
-    newArr[1] = lastSuccessfulMove[1]
+    newArr[1] = +lastSuccessfulMove[1]
     return newArr
   }
 
   const getCellToRight = (lastSuccessfulMove) => {
     // the row needs to change by one
     const newArr = []
-    const newColumn = lastSuccessfulMove[1] + 1
+    const newColumn = +lastSuccessfulMove[1] + 1
     if (newColumn > 9 || newColumn < 0) {
       return 'illegal'
     }
-    newArr[0] = lastSuccessfulMove[0]
+    newArr[0] = +lastSuccessfulMove[0]
     newArr[1] = newColumn
     return newArr
   }
 
   const getCellToLeft = (lastSuccessfulMove) => {
     // the row needs to change by one
-    const arr = lastSuccessfulMove
     const newArr = []
-    const newColumn = arr[1] - 1
+    const newColumn = +lastSuccessfulMove[1] - 1
     if (newColumn > 9 || newColumn < 0) {
       return 'illegal'
     }
-    newArr[0] = lastSuccessfulMove[0]
+    newArr[0] = +lastSuccessfulMove[0]
     newArr[1] = newColumn
     return newArr
   }

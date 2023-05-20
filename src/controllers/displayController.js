@@ -25,7 +25,9 @@ const displayController = async () => {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     transitionTextChanges(newMessage, topBarContainerPara)
 
-    aiBoardDiv.addEventListener('click', handlePlayerSelectionEvt)
+    aiBoardDiv.addEventListener('click', handlePlayerSelectionEvt, {
+      once: true
+    })
   }
 }
 
@@ -586,7 +588,10 @@ const findShipDOMBtn = (boardDOMCellsArr, domCoordinate) => {
   for (let i = 0; i < boardDOMCellsArr.length; i++) {
     const domCellRow = +boardDOMCellsArr[i].dataset.row
     const domCellColumn = +boardDOMCellsArr[i].dataset.column
-    if (domCellRow === domCoordinate[0] && domCellColumn === domCoordinate[1]) {
+    if (
+      domCellRow === +domCoordinate[0] &&
+      domCellColumn === +domCoordinate[1]
+    ) {
       return boardDOMCellsArr[i]
     }
   }
@@ -610,6 +615,20 @@ const handlePlayerSelectionEvt = async (e) => {
 
   game.playRound(coordinate)
   const humanMoveSuccessful = game.getAIBoardObj.getLastHumanMoveSuccessful()
+  // Use this value when determining whether to show ship as sunk
+  const shipIsSunk = game.isShipSunk('human')
+  const shipSunkResult = shipIsSunk[0]
+  if (shipSunkResult) {
+    const targetShipObj = shipIsSunk[1]
+    const isShipSunk = shipIsSunk[0]
+    const lastSuccessfulMove = shipIsSunk[2]
+    const sunkShipCoords = game.getSunkShipCoords(
+      targetShipObj,
+      lastSuccessfulMove,
+      'human'
+    )
+    displaySunkShip(sunkShipCoords, 'human')
+  }
   humanMoveSuccessful
     ? displaySuccessfulAttackMessage('human')
     : displayUnsuccessfulAttackMessage('human')
@@ -618,7 +637,6 @@ const handlePlayerSelectionEvt = async (e) => {
 
   updateAIBoard()
   await delay(4000)
-  // create handleWin() function
   handleWinCheck(humanWins, aiBoardDiv)
   handleAIMove(aiBoardDiv)
 }
@@ -630,6 +648,19 @@ const handleAIMove = async (aiBoardDiv) => {
   await delay(3000)
   game.playRound()
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
+  const shipIsSunk = game.isShipSunk('computer')
+  const shipSunkResult = shipIsSunk[0]
+  if (shipSunkResult) {
+    const targetShipObj = shipIsSunk[1]
+    const isShipSunk = shipIsSunk[0]
+    const lastSuccessfulMove = shipIsSunk[2]
+    const sunkShipCoords = game.getSunkShipCoords(
+      targetShipObj,
+      lastSuccessfulMove,
+      'computer'
+    )
+    displaySunkShip(sunkShipCoords, 'computer')
+  }
   aiMoveSuccessful
     ? displaySuccessfulAttackMessage('computer')
     : displayUnsuccessfulAttackMessage('computer')
@@ -643,6 +674,9 @@ const handleAIMove = async (aiBoardDiv) => {
 
   await delay(4000)
   handleWinCheck(aiWins, aiBoardDiv)
+  document
+    .getElementById('AIBoard')
+    .addEventListener('click', handlePlayerSelectionEvt, { once: true })
 }
 
 const announceWinner = (winner) => {
@@ -718,6 +752,31 @@ const displayUnsuccessfulAttackMessage = (player) => {
       unsuccessfulEnemyAttackMsg,
       topBarContainerPara
     )
+  }
+}
+
+// Changes colors of sunk ship cells to red and changes top bar container
+// message
+const displaySunkShip = (sunkShipCoords, player) => {
+  if (player === 'human') {
+    const aiDOMCellsArr = [...document.querySelectorAll('#AIBoard > button')]
+    for (let i = 0; i < sunkShipCoords.length; i++) {
+      const domCoord = sunkShipCoords[i]
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // ISSUE IS HERE, DOM COORD ARR HAS STRINGS, NEEDS NUMBERS
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      const targetDOMBtn = findShipDOMBtn(aiDOMCellsArr, domCoord)
+      targetDOMBtn.classList.add('sunkShip')
+    }
+  } else if (player === 'computer') {
+    const humanDOMCellsArr = [
+      ...document.querySelectorAll('#playerBoard > button')
+    ]
+    for (let i = 0; i < sunkShipCoords.length; i++) {
+      const domCoord = sunkShipCoords[i]
+      const targetDOMBtn = findShipDOMBtn(humanDOMCellsArr, domCoord)
+      targetDOMBtn.classList.add('sunkShip')
+    }
   }
 }
 
