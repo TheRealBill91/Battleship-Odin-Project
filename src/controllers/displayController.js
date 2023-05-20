@@ -25,9 +25,14 @@ const displayController = async () => {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     transitionTextChanges(newMessage, topBarContainerPara)
 
-    aiBoardDiv.addEventListener('click', handlePlayerSelectionEvt, {
-      once: true
-    })
+    const controller = new AbortController()
+    aiBoardDiv.addEventListener(
+      'click',
+      (e) => {
+        handlePlayerSelectionEvt(e, controller)
+      },
+      { signal: controller.signal }
+    )
   }
 }
 
@@ -303,8 +308,8 @@ const updateAIBoard = () => {
     for (let i = 0; i < allDomNodes.length; i++) {
       const targetNode = allDomNodes[i]
       if (
-        targetNode.dataset.column === column &&
-        targetNode.dataset.row === row
+        +targetNode.dataset.column === column &&
+        +targetNode.dataset.row === row
       ) {
         targetNode.classList.remove('shipCell')
         targetNode.classList.add('shipHit')
@@ -597,14 +602,16 @@ const findShipDOMBtn = (boardDOMCellsArr, domCoordinate) => {
   }
 }
 
-const handlePlayerSelectionEvt = async (e) => {
-  const selectedRow = e.target.dataset.row
-  const selectedColumn = e.target.dataset.column
+const handlePlayerSelectionEvt = async (e, controller) => {
+  const selectedRow = +e.target.dataset.row
+  const selectedColumn = +e.target.dataset.column
   const aiBoardDiv = document.getElementById('AIBoard')
 
-  if (!selectedColumn || !selectedRow) {
+  if (selectedColumn === 'undefined' || selectedRow === 'undefined') {
     return handlePlayerSelectionEvt
   }
+
+  controller.abort()
 
   const aiBoard = game.getAIBoardObj
   const coordinate = [selectedRow, selectedColumn]
@@ -619,19 +626,12 @@ const handlePlayerSelectionEvt = async (e) => {
   const shipIsSunk = game.isShipSunk('human')
   const shipSunkResult = shipIsSunk[0]
   if (shipSunkResult) {
-    const targetShipObj = shipIsSunk[1]
-    const isShipSunk = shipIsSunk[0]
-    const lastSuccessfulMove = shipIsSunk[2]
-    const sunkShipCoords = game.getSunkShipCoords(
-      targetShipObj,
-      lastSuccessfulMove,
-      'human'
-    )
-    displaySunkShip(sunkShipCoords, 'human')
+    displaySunkShipMessage('human')
+  } else if (!shipSunkResult) {
+    humanMoveSuccessful
+      ? displaySuccessfulAttackMessage('human')
+      : displayUnsuccessfulAttackMessage('human')
   }
-  humanMoveSuccessful
-    ? displaySuccessfulAttackMessage('human')
-    : displayUnsuccessfulAttackMessage('human')
 
   const humanWins = game.checkForWin()
 
@@ -650,20 +650,13 @@ const handleAIMove = async (aiBoardDiv) => {
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
   const shipIsSunk = game.isShipSunk('computer')
   const shipSunkResult = shipIsSunk[0]
-  if (shipSunkResult) {
-    const targetShipObj = shipIsSunk[1]
-    const isShipSunk = shipIsSunk[0]
-    const lastSuccessfulMove = shipIsSunk[2]
-    const sunkShipCoords = game.getSunkShipCoords(
-      targetShipObj,
-      lastSuccessfulMove,
-      'computer'
-    )
-    displaySunkShip(sunkShipCoords, 'computer')
+  if (shipSunkResult === true) {
+    displaySunkShipMessage('computer')
+  } else if (!shipSunkResult) {
+    aiMoveSuccessful
+      ? displaySuccessfulAttackMessage('computer')
+      : displayUnsuccessfulAttackMessage('computer')
   }
-  aiMoveSuccessful
-    ? displaySuccessfulAttackMessage('computer')
-    : displayUnsuccessfulAttackMessage('computer')
 
   const aiWins = game.checkForWin()
 
@@ -672,11 +665,17 @@ const handleAIMove = async (aiBoardDiv) => {
   const attackTheEnemyMsg = 'Attack the enemies ships...'
   transitionTextChanges(attackTheEnemyMsg, topBarContainerPara)
 
-  await delay(4000)
+  await delay(3500)
   handleWinCheck(aiWins, aiBoardDiv)
-  document
-    .getElementById('AIBoard')
-    .addEventListener('click', handlePlayerSelectionEvt, { once: true })
+
+  const controller = new AbortController()
+  aiBoardDiv.addEventListener(
+    'click',
+    (e) => {
+      handlePlayerSelectionEvt(e, controller)
+    },
+    { signal: controller.signal }
+  )
 }
 
 const announceWinner = (winner) => {
@@ -752,6 +751,18 @@ const displayUnsuccessfulAttackMessage = (player) => {
       unsuccessfulEnemyAttackMsg,
       topBarContainerPara
     )
+  }
+}
+
+const displaySunkShipMessage = (player) => {
+  if (player === 'human') {
+    const topBarContainerPara = document.querySelector('.topBarContainer > p')
+    const sunkShipMessage = 'You have sunk the enemies ship!'
+    setTimeout(transitionTextChanges, 10, sunkShipMessage, topBarContainerPara)
+  } else if (player === 'computer') {
+    const topBarContainerPara = document.querySelector('.topBarContainer > p')
+    const sunkShipMessage = 'The enemy sunk one of your ships!'
+    setTimeout(transitionTextChanges, 10, sunkShipMessage, topBarContainerPara)
   }
 }
 

@@ -101,7 +101,6 @@ button.shipCell {
   font-size: 1.1rem;
 }
 
-
 #playerBoard {
   outline: 1px solid black;
   display: grid;
@@ -119,6 +118,7 @@ button.shipCell {
 button.boardCell {
   border-radius: 0px;
   background-color: lightgray;
+  color: black;
 }
 
 button.shipCell {
@@ -126,12 +126,8 @@ button.shipCell {
   border: 1px solid black;
 }
 
-button.sunkShip {
-  background-color: rgb(114, 21, 21);
-}
-
 button.shipHit {
-  background-color: rgb(22, 94, 22);
+  background-color: rgb(114, 21, 21);
   transition: background-color 0.3s ease-in;
 }
 
@@ -181,7 +177,7 @@ button.shipHit {
 
   .topBarContainer p {
     /* outline: 1px solid black; */
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   #boardsContainer p {
