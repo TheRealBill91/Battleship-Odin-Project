@@ -277,7 +277,6 @@ const updateHumanBoard = () => {
       ) {
         targetNode.classList.remove('shipCell')
         targetNode.classList.add('shipHit')
-        return
       }
     }
   })
@@ -287,6 +286,7 @@ const updateAIBoard = () => {
   const aiBoard = game.getAIBoard()
   const missedShots = game.getAIBoardObj.getMissedShots()
   const successfulShots = game.getAIBoardObj.getSuccessfulShots()
+  console.log(successfulShots)
   const allDomNodes = Array.from(document.getElementById('AIBoard').childNodes)
 
   missedShots.forEach((shot) => {
@@ -313,7 +313,6 @@ const updateAIBoard = () => {
       ) {
         targetNode.classList.remove('shipCell')
         targetNode.classList.add('shipHit')
-        return
       }
     }
   })
@@ -623,7 +622,7 @@ const handlePlayerSelectionEvt = async (e, controller) => {
   game.playRound(coordinate)
   const humanMoveSuccessful = game.getAIBoardObj.getLastHumanMoveSuccessful()
   // Use this value when determining whether to show ship as sunk
-  const shipIsSunk = game.isShipSunk('human')
+  const shipIsSunk = game.isShipSunk('human', coordinate)
   const shipSunkResult = shipIsSunk[0]
   if (shipSunkResult) {
     displaySunkShipMessage('human')
@@ -646,9 +645,9 @@ const handleAIMove = async (aiBoardDiv) => {
   const enemyAttackingMsg = 'Enemy is attacking your ships!'
   transitionTextChanges(enemyAttackingMsg, topBarContainerPara)
   await delay(3000)
-  game.playRound()
+  const guessedCoordinate = game.playRound()
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
-  const shipIsSunk = game.isShipSunk('computer')
+  const shipIsSunk = game.isShipSunk('computer', guessedCoordinate)
   const shipSunkResult = shipIsSunk[0]
   if (shipSunkResult === true) {
     displaySunkShipMessage('computer')

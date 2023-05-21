@@ -4,18 +4,22 @@ body {
   min-height: 100vh;
   width: 100vw;
   overflow-x: hidden;
+  background: linear-gradient(darkblue, lightblue);
 }
 
 header {
-  background-color: darkblue;
-  color: rgb(236, 236, 236);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 80px;
+    background-color: darkblue;
+    color: rgb(236, 236, 236);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 80px;
+    padding: 8px;
+    background-color: #0000003d;
+    /* opacity: 0.6; */
+    z-index: 1;
 }
-
 .headerContainer {
   display: flex;
   align-items: center;
@@ -106,6 +110,8 @@ button.shipCell {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 50px);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 }
 
 #AIBoard {
@@ -113,11 +119,13 @@ button.shipCell {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 50px);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 }
 
 button.boardCell {
   border-radius: 0px;
-  background-color: lightgray;
+  background-color: rgb(235, 235, 235);
   color: black;
 }
 
@@ -162,8 +170,8 @@ button.shipHit {
 
   .topBarContainer {
     /* outline: 1px solid black; */
-    width: 84vw;
-    height: 80px;
+    width: 400px;
+    height: 85px;
     margin-top: 24px;
     display: flex;
     gap: 6%;
@@ -179,6 +187,8 @@ button.shipHit {
     /* outline: 1px solid black; */
     font-size: 1.1rem;
   }
+
+  
 
   #boardsContainer p {
     justify-self: center;

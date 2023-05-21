@@ -215,14 +215,14 @@ const gameController = () => {
   const playRound = (coordinate) => {
     if (currentPlayer.getName() === players.human.getName()) {
       aiBoard.receiveAttack(coordinate)
+      switchPlayer()
     } else if (currentPlayer.getName() === players.AI.getName()) {
       const nextMove = computersNextMove()
       humanBoard.receiveAttack(nextMove)
       humanBoard.removeLastAIMove(nextMove)
+      switchPlayer()
+      return nextMove
     }
-
-    switchPlayer()
-    console.log(currentPlayer.getName())
   }
 
   const computersNextMove = () => {
@@ -269,11 +269,14 @@ const gameController = () => {
     return winner
   }
 
-  const isShipSunk = (player) => {
+  const isShipSunk = (player, coordinate) => {
     let shipIsSunk
     if (player === 'human') {
       const lastSuccessfulHumanMove = aiBoard.getLastSuccessfulMove()
-      if (lastSuccessfulHumanMove === undefined) {
+      if (
+        lastSuccessfulHumanMove === undefined ||
+        lastSuccessfulHumanMove !== coordinate
+      ) {
         shipIsSunk = false
         return [shipIsSunk]
       }
@@ -284,7 +287,10 @@ const gameController = () => {
       return [shipIsSunk, targetShipObj, lastSuccessfulHumanMove]
     } else if (player === 'computer') {
       const lastSuccessfulAIMove = humanBoard.getLastSuccessfulMove()
-      if (lastSuccessfulAIMove === undefined) {
+      if (
+        lastSuccessfulAIMove === undefined ||
+        lastSuccessfulAIMove !== coordinate
+      ) {
         shipIsSunk = false
         return [shipIsSunk]
       }
@@ -321,7 +327,7 @@ const gameController = () => {
     placeCruiserShip,
     placeSubmarineShip,
     placeDestroyerShip,
-    isShipSunk,
+    isShipSunk
   }
 }
 
