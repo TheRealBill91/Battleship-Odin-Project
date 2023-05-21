@@ -88,10 +88,6 @@ const placeBattleShip = () => {
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
-      console.log(
-        'Orientation status going into placement:' +
-          horizontalShipOrientationStatus
-      )
       handleBattleShipPlacement(e, horizontalShipOrientationStatus, controller)
     },
     { signal: controller.signal }
@@ -237,9 +233,11 @@ const renderAIBoard = async () => {
       button.dataset.column = j
       const row = aiBoard[i]
 
-      if (typeof row[j] === 'object') {
+      // Used for testing, as it reveals the enemies ships on the board
+      // to the user
+      /* if (typeof row[j] === 'object') {
         button.classList.add('shipCell')
-      }
+      } */
       aiBoardDiv.appendChild(button)
     }
   }
@@ -253,7 +251,7 @@ const updateHumanBoard = () => {
     document.getElementById('playerBoard').childNodes
   )
 
-  missedShots.forEach((shot) => {
+  missedShots.forEach(async (shot) => {
     const row = shot[0]
     const column = shot[1]
 
@@ -282,20 +280,19 @@ const updateHumanBoard = () => {
   })
 }
 
-const updateAIBoard = () => {
+const updateAIBoard = async () => {
   const aiBoard = game.getAIBoard()
   const missedShots = game.getAIBoardObj.getMissedShots()
   const successfulShots = game.getAIBoardObj.getSuccessfulShots()
-  console.log(successfulShots)
   const allDomNodes = Array.from(document.getElementById('AIBoard').childNodes)
 
-  missedShots.forEach((shot) => {
+  missedShots.forEach(async (shot) => {
     const row = shot[0]
     const column = shot[1]
 
     for (let i = 0; i < allDomNodes.length; i++) {
       const targetNode = allDomNodes[i].dataset
-      if (targetNode.column === column && targetNode.row === row) {
+      if (+targetNode.column === column && +targetNode.row === row) {
         allDomNodes[i].textContent = 'X'
       }
     }
@@ -762,31 +759,6 @@ const displaySunkShipMessage = (player) => {
     const topBarContainerPara = document.querySelector('.topBarContainer > p')
     const sunkShipMessage = 'The enemy sunk one of your ships!'
     setTimeout(transitionTextChanges, 10, sunkShipMessage, topBarContainerPara)
-  }
-}
-
-// Changes colors of sunk ship cells to red and changes top bar container
-// message
-const displaySunkShip = (sunkShipCoords, player) => {
-  if (player === 'human') {
-    const aiDOMCellsArr = [...document.querySelectorAll('#AIBoard > button')]
-    for (let i = 0; i < sunkShipCoords.length; i++) {
-      const domCoord = sunkShipCoords[i]
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // ISSUE IS HERE, DOM COORD ARR HAS STRINGS, NEEDS NUMBERS
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      const targetDOMBtn = findShipDOMBtn(aiDOMCellsArr, domCoord)
-      targetDOMBtn.classList.add('sunkShip')
-    }
-  } else if (player === 'computer') {
-    const humanDOMCellsArr = [
-      ...document.querySelectorAll('#playerBoard > button')
-    ]
-    for (let i = 0; i < sunkShipCoords.length; i++) {
-      const domCoord = sunkShipCoords[i]
-      const targetDOMBtn = findShipDOMBtn(humanDOMCellsArr, domCoord)
-      targetDOMBtn.classList.add('sunkShip')
-    }
   }
 }
 

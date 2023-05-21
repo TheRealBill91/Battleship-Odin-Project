@@ -34,3 +34,15 @@ This is a classic Battleship game built as part of the Odin Project curriculum. 
 - Babel
 - Prettier
 - Node.js
+
+## Credits
+
+### Fonts
+
+Play font
+[Google Fonts](https://fonts.google.com/specimen/Play?query=play)
+
+### Images
+
+Battleship Logo
+[Bing image creator](https://www.bing.com/create)
