@@ -8,17 +8,18 @@ body {
 }
 
 header {
-    background-color: darkblue;
-    color: rgb(236, 236, 236);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 80px;
-    padding: 8px;
-    background-color: #0000003d;
-    /* opacity: 0.6; */
-    z-index: 1;
+  background-color: darkblue;
+  color: rgb(236, 236, 236);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 90px;
+  padding: 8px;
+  background-color: #0000003d;
+  /* opacity: 0.6; */
+  z-index: 1;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 .headerContainer {
   display: flex;
@@ -91,18 +92,31 @@ button.shipCell {
   margin-bottom: 14px;
 }
 
-.orientationToggleBtn {
+button.orientationToggleBtn {
   background-color: #333;
   color: white;
   border-radius: 8px;
-  height: 70%;
+  height: 60%;
   width: 100px;
   font-size: 1rem;
+  transition: 0.1s ease-in-out;
+  border: none;
+}
+
+button.orientationToggleBtn:hover,
+button.orientationToggleBtn:active {
+  background-color: #3c3c3c;
+  border: none;
 }
 
 #boardsContainer p {
   justify-self: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: white;
+  background-color: grey;
+  padding: 6px 8px;
+  border-radius: 8px 8px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #playerBoard {
@@ -167,31 +181,42 @@ button.shipHit {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 42px);
   }
-
   .topBarContainer {
     /* outline: 1px solid black; */
-    width: 400px;
-    height: 85px;
-    margin-top: 24px;
+    height: 40vh;
+    margin-top: 8%;
     display: flex;
-    gap: 6%;
+    gap: 8%;
     justify-content: center;
     align-items: center;
-    background-color: lightgrey;
     border-radius: 12px 12px;
+    background-color: lightgray;
     box-shadow: 0px 2px 1px #7a7a7a42;
+    width: 76vw;
+    /* width: 100%; */
+    max-height: 118px;
     padding: 6px;
   }
 
   .topBarContainer p {
     /* outline: 1px solid black; */
     font-size: 1.1rem;
+    height: fit-content;
+    margin: 0;
+    max-height: 80vh;
   }
-
-  
 
   #boardsContainer p {
     justify-self: center;
     font-size: 1.1rem;
+  }
+
+  button.orientationToggleBtn {
+    background-color: #333;
+    color: white;
+    border-radius: 8px;
+    height: 50%;
+    width: 100px;
+    font-size: 1rem;
   }
 }
