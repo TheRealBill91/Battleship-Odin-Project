@@ -235,9 +235,9 @@ const renderAIBoard = async () => {
 
       // Used for testing, as it reveals the enemies ships on the board
       // to the user
-      /* if (typeof row[j] === 'object') {
+      if (typeof row[j] === 'object') {
         button.classList.add('shipCell')
-      } */
+      }
       aiBoardDiv.appendChild(button)
     }
   }
@@ -601,20 +601,17 @@ const findShipDOMBtn = (boardDOMCellsArr, domCoordinate) => {
 const handlePlayerSelectionEvt = async (e, controller) => {
   const selectedRow = +e.target.dataset.row
   const selectedColumn = +e.target.dataset.column
+  const coordinate = [selectedRow, selectedColumn]
   const aiBoardDiv = document.getElementById('AIBoard')
-
+  const aiBoard = game.getAIBoardObj
+  const alreadyAttacked = aiBoard.preventSameAttack(coordinate)
   if (selectedColumn === 'undefined' || selectedRow === 'undefined') {
+    return handlePlayerSelectionEvt
+  } else if (alreadyAttacked) {
     return handlePlayerSelectionEvt
   }
 
   controller.abort()
-
-  const aiBoard = game.getAIBoardObj
-  const coordinate = [selectedRow, selectedColumn]
-  const alreadyAttacked = aiBoard.preventSameAttack(coordinate)
-  if (alreadyAttacked) {
-    return
-  }
 
   game.playRound(coordinate)
   const humanMoveSuccessful = game.getAIBoardObj.getLastHumanMoveSuccessful()
@@ -661,7 +658,7 @@ const handleAIMove = async (aiBoardDiv) => {
   const attackTheEnemyMsg = 'Attack the enemies ships...'
   transitionTextChanges(attackTheEnemyMsg, topBarContainerPara)
 
-  await delay(3500)
+  await delay(2000)
   handleWinCheck(aiWins, aiBoardDiv)
 
   const controller = new AbortController()

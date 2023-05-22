@@ -85,7 +85,6 @@ test('checks that we can retrieve the adjacent slots', () => {
   const adjacentSlots = player.getAdjacentSlots(
     true,
     availableMoves,
-    gameBoard.getSuccessfulShots(),
     successfulShots,
     gameBoard.getMissedShots()
   )

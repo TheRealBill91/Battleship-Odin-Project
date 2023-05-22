@@ -214,11 +214,11 @@ const gameController = () => {
 
   const playRound = (coordinate) => {
     if (currentPlayer.getName() === players.human.getName()) {
-      aiBoard.receiveAttack(coordinate)
+      aiBoard.receiveAttack(coordinate, currentPlayer.getName())
       switchPlayer()
     } else if (currentPlayer.getName() === players.AI.getName()) {
       const nextMove = computersNextMove()
-      humanBoard.receiveAttack(nextMove)
+      humanBoard.receiveAttack(nextMove, currentPlayer.getName())
       humanBoard.removeLastAIMove(nextMove)
       switchPlayer()
       return nextMove

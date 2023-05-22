@@ -28,13 +28,13 @@ export const Player = (name, isAI) => {
     const lastSuccessfulMove = successfulShots.at(-1)
     const adjacentSlots = retrieveAdjacentSlots(lastSuccessfulMove)
     const legalAdjacentSlots = removeIllegalAdjacentSlots(adjacentSlots)
-    /* const availableAdjacentSlots = preventPreviousShotToQueue(
+    const availableAdjacentSlots = preventPreviousShotToQueue(
       availableMoves,
       legalAdjacentSlots,
       successfulShots,
       missedShots
-    ) */
-    return legalAdjacentSlots
+    )
+    return availableAdjacentSlots
   }
 
   const getCellAbove = (lastSuccessfulMove) => {
@@ -85,9 +85,7 @@ export const Player = (name, isAI) => {
     return newArr
   }
 
-  const getName = () => {
-    return name
-  }
+ 
 
   const retrieveAdjacentSlots = (lastSuccessfulMove) => {
     const lastSuccessfulMoveValue = lastSuccessfulMove
@@ -136,6 +134,10 @@ export const Player = (name, isAI) => {
     )
 
     return filteredSlots
+  }
+
+  const getName = () => {
+    return name
   }
 
   return {

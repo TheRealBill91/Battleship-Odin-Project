@@ -135,9 +135,9 @@ export const Gameboard = () => {
     return alreadyAttacked
   }
 
-  const receiveAttack = (coordinates) => {
-    const row = coordinates[0]
-    const column = coordinates[1]
+  const receiveAttack = (coordinates, currentPlayer) => {
+    const row = +coordinates[0]
+    const column = +coordinates[1]
     // coordinates = [row, column]
     const boardCell = board[row][column]
     const shipObj = boardCell
@@ -151,8 +151,9 @@ export const Gameboard = () => {
 
     if (typeof boardCell === 'object') {
       shipObj.hit()
-      lastAIMoveSuccessful = true
-      lastHumanMoveSuccessful = true
+      currentPlayer === 'Human'
+        ? (lastHumanMoveSuccessful = true)
+        : (lastAIMoveSuccessful = true)
       successfulShots.push(coordinates)
     } else if (typeof boardCell !== 'object') {
       lastAIMoveSuccessful = false
