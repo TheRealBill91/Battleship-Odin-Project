@@ -231,13 +231,13 @@ const renderAIBoard = async () => {
       button.classList.add('boardCell')
       button.dataset.row = i
       button.dataset.column = j
-      const row = aiBoard[i]
+      // const row = aiBoard[i]
 
       // Used for testing, as it reveals the enemies ships on the board
       // to the user
-      if (typeof row[j] === 'object') {
-        button.classList.add('shipCell')
-      }
+      // if (typeof row[j] === 'object') {
+      //   button.classList.add('shipCell')
+      // }
       aiBoardDiv.appendChild(button)
     }
   }
