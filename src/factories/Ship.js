@@ -27,5 +27,12 @@ export const Ship = (length, numOfHits, isSunk) => {
     return length
   }
 
-  return { hit, hasBeenSunk, getNumOfHits, getLength }
+  const resetShip = () => {
+    if (numOfHits === length) {
+      numOfHits = 0
+      isSunk = false
+    }
+  }
+
+  return { hit, hasBeenSunk, getNumOfHits, getLength, resetShip }
 }

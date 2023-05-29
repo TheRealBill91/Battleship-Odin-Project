@@ -215,12 +215,10 @@ const gameController = () => {
   const playRound = (coordinate) => {
     if (currentPlayer.getName() === players.human.getName()) {
       aiBoard.receiveAttack(coordinate, currentPlayer.getName())
-      switchPlayer()
     } else if (currentPlayer.getName() === players.AI.getName()) {
       const nextMove = computersNextMove()
       humanBoard.receiveAttack(nextMove, currentPlayer.getName())
       humanBoard.removeLastAIMove(nextMove)
-      switchPlayer()
       return nextMove
     }
   }
@@ -252,18 +250,18 @@ const gameController = () => {
   }
 
   const checkForWin = () => {
-    let winner
+    let winner = [currentPlayer, false]
     if (
       currentPlayer.getName() === players.human.getName() &&
       aiBoard.allShipsSunk()
     ) {
-      winner = currentPlayer
+      winner = [currentPlayer, true]
       return winner
     } else if (
       currentPlayer.getName() === players.AI.getName() &&
       humanBoard.allShipsSunk()
     ) {
-      winner = currentPlayer
+      winner = [currentPlayer, true]
       return winner
     }
     return winner
@@ -306,6 +304,8 @@ const gameController = () => {
   const resetGameState = (winner) => {
     humanBoard.clearGameBoard()
     aiBoard.clearGameBoard()
+    humanBoard.resetShipObjects()
+    aiBoard.resetShipObjects()
     humanBoard.createGameBoard()
     aiBoard.createGameBoard()
   }
@@ -333,7 +333,7 @@ const gameController = () => {
 
 export { gameController }
 
-const placeShips = (board, coordinatesObj) => {
+export const placeShips = (board, coordinatesObj) => {
   const shipCoordinatesArr = Object.values(coordinatesObj)
   shipCoordinatesArr.forEach((shipCoordinates) => {
     board.placeShip(shipCoordinates)

@@ -213,6 +213,14 @@ export const Gameboard = () => {
     aiAvailableMoves.length = 0
     successfulShots.length = 0
     adjacentSlotsQueue.length = 0
+    lastAIMoveSuccessful = false
+    lastHumanMoveSuccessful = false
+  }
+
+  const resetShipObjects = () => {
+    shipObjects.forEach((shipObj) => {
+      shipObj.resetShip()
+    })
   }
 
   const getBoard = () => {
@@ -277,6 +285,7 @@ export const Gameboard = () => {
     addAdjacentSlotsToQueue,
     getAdjacentQueueSlot,
     removeAdjacentSlot,
-    getLastSuccessfulMove
+    getLastSuccessfulMove,
+    resetShipObjects
   }
 }

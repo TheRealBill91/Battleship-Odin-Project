@@ -1,6 +1,8 @@
+import { placeShips } from '../controllers/gameController'
 import { Gameboard } from '../factories/Gameboard'
 import { Player } from '../factories/Player'
 import { arraysAreEqual } from '../helpers/arraysAreEqual'
+import { aiShipCoordsOne, returnRandomAIBoard } from '../helpers/rotateAIBoards'
 
 test('checks the number of rows', () => {
   const gameBoard = Gameboard()
@@ -366,6 +368,36 @@ test('check if slot in adjacency queue is removed', () => {
   const adjacentQueue = gameBoard.getAdjacentSlotsQueue()
 
   expect(adjacentQueue).not.toContainEqual([1, 0])
+})
+
+test('checks that each sunk ship object has been reset', () => {
+  const aiBoard = Gameboard()
+  aiBoard.createGameBoard()
+
+  const aiPlayer = Player('AI', true)
+
+  placeShips(aiBoard, aiShipCoordsOne)
+
+  Object.entries(aiShipCoordsOne).forEach(([shipKey, shipArr]) => {
+    shipArr.forEach((shipCoord) => {
+      aiBoard.receiveAttack(shipCoord, 'AI')
+    })
+  })
+
+  // This is what makes the test pass
+  aiBoard.resetShipObjects()
+  const aiShipObjects = aiBoard.getShipObjects()
+  let allShipsReset
+  for (let i = 0; i < aiShipObjects.length; i++) {
+    const shipObj = aiShipObjects[i]
+    if (!shipObj.hasBeenSunk()) {
+      allShipsReset = true
+    } else if (shipObj.hasBeenSunk()) {
+      allShipsReset = false
+    }
+  }
+
+  expect(allShipsReset).toBeTruthy()
 })
 
 // !!!REMOVE THIS TEST, IT IS NOT NEEDED!!!

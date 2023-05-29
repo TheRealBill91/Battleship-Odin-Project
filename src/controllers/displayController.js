@@ -12,7 +12,7 @@ const displayController = async () => {
   // this is where the ship placement will happen for human player
   const topBarContainerPara = document.querySelector('.topBarContainer > p')
   topBarContainerPara.textContent = 'Enenmy is placing their ships...'
-  await delay(1500)
+  // await delay(1500)
   game.placeAIShips()
   renderAIBoard()
   topBarContainerPara.textContent = ''
@@ -117,10 +117,6 @@ const placeCruiser = () => {
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
-      console.log(
-        'Orientation status going into placement:' +
-          horizontalShipOrientationStatus
-      )
       handleCruiserShipPlacement(e, horizontalShipOrientationStatus, controller)
     },
     { signal: controller.signal }
@@ -149,10 +145,6 @@ const placeSubmarine = () => {
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
-      console.log(
-        'Orientation status going into placement:' +
-          horizontalShipOrientationStatus
-      )
       handleSubmarineShipPlacement(
         e,
         horizontalShipOrientationStatus,
@@ -186,10 +178,6 @@ const placeDestroyer = () => {
   humanBoardDiv.addEventListener(
     'click',
     (e) => {
-      console.log(
-        'Orientation status going into placement:' +
-          horizontalShipOrientationStatus
-      )
       handleDestroyerShipPlacement(
         e,
         horizontalShipOrientationStatus,
@@ -231,13 +219,13 @@ const renderAIBoard = async () => {
       button.classList.add('boardCell')
       button.dataset.row = i
       button.dataset.column = j
-      // const row = aiBoard[i]
+      const row = aiBoard[i]
 
       // Used for testing, as it reveals the enemies ships on the board
       // to the user
-      // if (typeof row[j] === 'object') {
-      //   button.classList.add('shipCell')
-      // }
+      if (typeof row[j] === 'object') {
+        button.classList.add('shipCell')
+      }
       aiBoardDiv.appendChild(button)
     }
   }
@@ -626,19 +614,25 @@ const handlePlayerSelectionEvt = async (e, controller) => {
       : displayUnsuccessfulAttackMessage('human')
   }
 
-  const humanWins = game.checkForWin()
+  const [humanPlayer, humanWon] = game.checkForWin()
 
   updateAIBoard()
   await delay(4000)
-  handleWinCheck(humanWins, aiBoardDiv)
-  handleAIMove(aiBoardDiv)
+
+  if (handleWinCheck(humanPlayer, humanWon, aiBoardDiv)) {
+    return handlePlayerSelectionEvt
+  }
+  game.switchPlayer()
+  if (handleAIMove(aiBoardDiv)) {
+    return handlePlayerSelectionEvt
+  }
 }
 
 const handleAIMove = async (aiBoardDiv) => {
   const topBarContainerPara = document.querySelector('.topBarContainer > p')
   const enemyAttackingMsg = 'Enemy is attacking your ships!'
   transitionTextChanges(enemyAttackingMsg, topBarContainerPara)
-  await delay(3000)
+  // await delay(3000)
   const guessedCoordinate = game.playRound()
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
   const shipIsSunk = game.isShipSunk('computer', guessedCoordinate)
@@ -651,15 +645,18 @@ const handleAIMove = async (aiBoardDiv) => {
       : displayUnsuccessfulAttackMessage('computer')
   }
 
-  const aiWins = game.checkForWin()
+  const [aiPlayer, aiWon] = game.checkForWin()
 
   updateHumanBoard()
-  await delay(2500)
+  if (handleWinCheck(aiPlayer, aiWon, aiBoardDiv)) {
+    return true
+  }
+  game.switchPlayer()
+  // await delay(2500)
   const attackTheEnemyMsg = 'Attack the enemies ships...'
   transitionTextChanges(attackTheEnemyMsg, topBarContainerPara)
 
-  await delay(2000)
-  handleWinCheck(aiWins, aiBoardDiv)
+  // await delay(2000)
 
   const controller = new AbortController()
   aiBoardDiv.addEventListener(
@@ -680,6 +677,7 @@ const announceWinner = (winner) => {
 const playAgain = () => {
   const topBarDiv = document.querySelector('.topBarContainer')
   const playAgainBtn = document.createElement('button')
+  playAgainBtn.classList.add('playAgainBtn')
   playAgainBtn.textContent = 'Play again'
   topBarDiv.appendChild(playAgainBtn)
   playAgainBtn.addEventListener('click', startNewGame)
@@ -690,7 +688,7 @@ const startNewGame = () => {
   const playAgainBtn = document.querySelector('.topBarContainer > button')
   topBarDiv.removeChild(playAgainBtn)
   document.querySelector('.topBarContainer > p').textContent = ''
-  displayController()
+  preGameSetup()
 }
 
 // For each of the place ship functions, we need to remove the previous
@@ -759,20 +757,21 @@ const displaySunkShipMessage = (player) => {
   }
 }
 
-const handleWinCheck = (winCheck, boardDiv) => {
-  if (winCheck) {
+const handleWinCheck = (currentPlayer, playerWon, boardDiv) => {
+  if (playerWon) {
     boardDiv.removeEventListener('click', handlePlayerSelectionEvt)
     game.resetGameState()
-    announceWinner(winCheck)
+    announceWinner(currentPlayer)
     playAgain()
+    return true
   }
 }
 
 const transitionTextChanges = async (newMessage, domElement) => {
   domElement.classList.add('invisible')
-  await delay(400)
+  // await delay(400)
   domElement.textContent = newMessage
-  await delay(400)
+  // await delay(400)
   domElement.classList.remove('invisible')
 }
 

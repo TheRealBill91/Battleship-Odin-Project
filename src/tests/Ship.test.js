@@ -34,3 +34,30 @@ test('trying to hit a sunk ship returns nothing', () => {
 
   expect(shipHit).toBeUndefined()
 })
+
+test('resets ship hits to 0', () => {
+  const ship = Ship(3, 3, true)
+  ship.resetShip()
+
+  const numOfHits = ship.getNumOfHits()
+
+  expect(numOfHits).toBe(0)
+})
+
+test('resets ship hits to 0', () => {
+  const ship = Ship(3, 3, true)
+  ship.resetShip()
+
+  const numOfHits = ship.getNumOfHits()
+
+  expect(numOfHits).toBe(0)
+})
+
+test('resets ship isSunk to false', () => {
+  const ship = Ship(3, 3, true)
+  ship.resetShip()
+
+  const shipIsSunk = ship.hasBeenSunk()
+
+  expect(shipIsSunk).toBeFalsy()
+})

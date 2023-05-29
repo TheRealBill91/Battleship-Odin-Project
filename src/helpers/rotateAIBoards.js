@@ -5,7 +5,7 @@ export const returnRandomAIBoard = () => {
   return chosenAIBoard
 }
 
-const aiShipCoordsOne = {
+export const aiShipCoordsOne = {
   carrier: [
     [9, 0],
     [9, 1],
