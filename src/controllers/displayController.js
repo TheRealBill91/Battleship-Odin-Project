@@ -12,7 +12,7 @@ const displayController = async () => {
   // this is where the ship placement will happen for human player
   const topBarContainerPara = document.querySelector('.topBarContainer > p')
   topBarContainerPara.textContent = 'Enenmy is placing their ships...'
-  // await delay(1500)
+  await delay(1500)
   game.placeAIShips()
   renderAIBoard()
   topBarContainerPara.textContent = ''
@@ -219,13 +219,13 @@ const renderAIBoard = async () => {
       button.classList.add('boardCell')
       button.dataset.row = i
       button.dataset.column = j
-      const row = aiBoard[i]
+      // const row = aiBoard[i]
 
       // Used for testing, as it reveals the enemies ships on the board
       // to the user
-      if (typeof row[j] === 'object') {
-        button.classList.add('shipCell')
-      }
+      // if (typeof row[j] === 'object') {
+      //   button.classList.add('shipCell')
+      // }
       aiBoardDiv.appendChild(button)
     }
   }
@@ -632,7 +632,7 @@ const handleAIMove = async (aiBoardDiv) => {
   const topBarContainerPara = document.querySelector('.topBarContainer > p')
   const enemyAttackingMsg = 'Enemy is attacking your ships!'
   transitionTextChanges(enemyAttackingMsg, topBarContainerPara)
-  // await delay(3000)
+  await delay(3000)
   const guessedCoordinate = game.playRound()
   const aiMoveSuccessful = game.getHumanBoardObj.getLastAIMoveSuccessful()
   const shipIsSunk = game.isShipSunk('computer', guessedCoordinate)
@@ -652,11 +652,11 @@ const handleAIMove = async (aiBoardDiv) => {
     return true
   }
   game.switchPlayer()
-  // await delay(2500)
+  await delay(2500)
   const attackTheEnemyMsg = 'Attack the enemies ships...'
   transitionTextChanges(attackTheEnemyMsg, topBarContainerPara)
 
-  // await delay(2000)
+  await delay(1500)
 
   const controller = new AbortController()
   aiBoardDiv.addEventListener(
@@ -769,9 +769,9 @@ const handleWinCheck = (currentPlayer, playerWon, boardDiv) => {
 
 const transitionTextChanges = async (newMessage, domElement) => {
   domElement.classList.add('invisible')
-  // await delay(400)
+  await delay(400)
   domElement.textContent = newMessage
-  // await delay(400)
+  await delay(400)
   domElement.classList.remove('invisible')
 }
 
