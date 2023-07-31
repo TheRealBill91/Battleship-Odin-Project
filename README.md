@@ -44,5 +44,6 @@ Play font
 
 ### Images
 
-Battleship Logo
-[Bing image creator](https://www.bing.com/create)
+[Battleship Logo created by Delapouite](https://game-icons.net/1x1/delapouite/drakkar.html)
+
+[Favicon.io to generate favicon](https://favicon.io/)
